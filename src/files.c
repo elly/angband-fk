@@ -15,10 +15,6 @@
 #include "types.h"
 #include "externs.h"
 
-#ifdef MSDOS
-extern int errno;
-#endif
-
 #if defined(GEMDOS) && (__STDC__ == 0)
 #include <access.h>
 char *strcat();

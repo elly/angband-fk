@@ -83,9 +83,7 @@ int sig;
 
   /* Allow player to think twice. Wizard may force a core dump. */
   if (sig == SIGINT
-#ifndef MSDOS
       || sig == SIGQUIT
-#endif
       )
     {
       if (death)
@@ -141,12 +139,10 @@ int sig;
       (void) _save_char(savefile);	/* Quietly save the memory anyway. */
     }
   restore_term();
-#ifndef MSDOS
   /* always generate a core dump */
   (void) signal(sig, SIG_DFL);
   (void) kill(getpid(), sig);
   (void) sleep(5);
-#endif
   exit(1);
 }
 
@@ -183,9 +179,6 @@ void init_signals()
 {
   (void) signal(SIGINT, signal_handler);
   (void) signal(SIGFPE, signal_handler);
-#ifdef MSDOS
-  /* many fewer signals under MSDOS */
-#else
   /* Ignore HANGUP, and let the EOF code take care of this case. */
   (void) signal(SIGHUP, SIG_IGN);
   (void) signal(SIGQUIT, signal_handler);
@@ -209,7 +202,6 @@ void init_signals()
 #endif
 #ifdef SIGPWR /* SYSV */
   (void) signal(SIGPWR, signal_handler);
-#endif
 #endif
 }
 

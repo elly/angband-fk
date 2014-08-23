@@ -2251,11 +2251,7 @@ int dir, y, x;
 
   if (!mmove(dir, &y, &x))	/* check to see if movement there possible */
     return TRUE;
-#ifdef MSDOS
-  else if ((c = loc_symbol(y, x)) == wallsym || c == '%')
-#else
   else if ((c = loc_symbol(y, x)) == '#' || c == '%')
-#endif
     return TRUE;
   else
     return FALSE;

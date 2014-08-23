@@ -30,14 +30,10 @@
 #include <sys/file.h>
 #endif
 
-#ifdef MSDOS
-#include <io.h>
-#else
 #ifndef VMS
 #include <pwd.h>
 #else
 #include <file.h>
-#endif
 #endif
 
 #ifdef USG

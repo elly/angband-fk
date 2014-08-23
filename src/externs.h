@@ -10,9 +10,7 @@
 #include <string.h>
 #include <unistd.h>
 
-#ifndef MSDOS
 extern int errno;
-#endif
 
 extern char *copyright[5];
 
@@ -194,12 +192,6 @@ extern char last_command;  /* Memory of previous command. */
 /* moria1.c */
 /* Track if temporary light about player.  */
 extern int light_flag;
-
-#ifdef MSDOS
-extern int8u	floorsym, wallsym;
-extern int	ansi, saveprompt;
-extern char	moriatop[], moriasav[];
-#endif
 
 /* function return values */
 /* only extern functions declared here, static functions declared inside
@@ -477,26 +469,6 @@ void disarm_trap(void);
 void look(void);
 void throw_object(void);
 void bash(void);
-
-#ifdef MSDOS
-/* ms_misc.c */
-char *getlogin(void);
-#ifdef __TURBOC__
-void sleep(int);
-#else
-unsigned int sleep(int );
-#endif
-void error(char *, ...);
-void warn(char *, ...);
-void msdos_init(void);
-void msdos_raw(void);
-void msdos_noraw(void);
-int bios_getch(void);
-int msdos_getch(void);
-void bios_clear(void);
-void msdos_intro(void);
-void bios_clear(void);
-#endif
 
 /* potions.c */
 void quaff(void);
@@ -932,27 +904,6 @@ void disarm_trap();
 void look();
 void throw_object();
 void bash();
-
-#ifdef MSDOS
-/* ms_misc.c */
-char *getlogin();
-#ifdef __TURBOC__
-void sleep();
-#else
-unsigned int sleep();
-#endif
-void error();
-void warn();
-void msdos_init();
-void msdos_raw();
-void msdos_noraw();
-int bios_getch();
-int msdos_getch();
-void bios_clear();
-void msdos_intro();
-void msdos_print_map();
-void bios_clear();
-#endif
 
 /* potions.c */
 void quaff();

@@ -6,11 +6,6 @@
    not for profit purposes provided that this copyright and statement are
    included in all such copies. */
 
-#ifdef MSDOS
-#include <stdio.h>
-#include <process.h>
-#endif
-
 #if defined(NLS) && defined(lint)
 /* for AIX, don't let curses include the NL stuff */
 #undef NLS
@@ -41,16 +36,10 @@ char *getenv();
 typedef struct { int stuff; } fpvmach;
 #endif
 
-#if defined(MSDOS)
-#if defined(ANSI)
-#include "ms_ansi.h"
-#endif
-#else /* not msdos */
 #ifndef VMS
 #include <sys/ioctl.h>
 #endif
 #include <signal.h>
-#endif
 
 #ifndef USG
 /* only needed for Berkeley UNIX */
@@ -61,9 +50,7 @@ typedef struct { int stuff; } fpvmach;
 
 #ifdef USG
 #include <string.h>
-#if !defined(MSDOS)
 #include <termio.h>
-#endif
 #else
 #ifndef VMS
 #include <strings.h>
@@ -129,7 +116,6 @@ unsigned sleep();
 #endif
 #endif
 
-#if !defined(MSDOS)
 #ifdef USG
 static struct termio save_termio;
 #else
@@ -138,7 +124,6 @@ static struct ltchars save_special_chars;
 static struct sgttyb save_ttyb;
 static struct tchars save_tchars;
 static int save_local_chars;
-#endif
 #endif
 #endif
 
@@ -193,7 +178,7 @@ void init_curses()
   (void) ioctl(0, TIOCGETC, (char *)&save_tchars);
   (void) ioctl(0, TIOCLGET, (char *)&save_local_chars);
 #else
-#if !defined(VMS) && !defined(MSDOS)
+#if !defined(VMS)
   (void) ioctl(0, TCGETA, (char *)&save_termio);
 #endif
 #endif
@@ -243,13 +228,11 @@ void init_curses()
 /* Set up the terminal into a suitable state for moria.	 -CJS- */
 void moriaterm()
 {
-#if !defined(MSDOS)
 #ifdef USG
   struct termio tbuf;
 #else
   struct ltchars lbuf;
   struct tchars buf;
-#endif
 #endif
 
   curses_on = TRUE;
@@ -260,9 +243,6 @@ void moriaterm()
 #endif
   use_value noecho();
   /* can not use nonl(), because some curses do not handle it correctly */
-#ifdef MSDOS
-  msdos_raw();
-#else
 #ifdef USG
   (void) ioctl(0, TCGETA, (char *)&tbuf);
   /* disable all of the normal special control characters */
@@ -298,7 +278,6 @@ void moriaterm()
   buf.t_eofc = (char)-1;
   buf.t_brkc = (char)-1;
   (void) ioctl(0, TIOCSETC, (char *)&buf);
-#endif
 #endif
 #endif
 }
@@ -346,9 +325,6 @@ void restore_term()
   if (!curses_on)
     return;
   put_qio();  /* Dump any remaining buffer */
-#ifdef MSDOS
-  (void) sleep(2);   /* And let it be read. */
-#endif
 #ifdef VMS
   pause_line(15);
 #endif
@@ -359,15 +335,9 @@ void restore_term()
 #endif
   endwin();  /* exit curses */
   (void) fflush (stdout);
-#ifdef MSDOS
-  msdos_noraw();
-  (void) clear();
-#endif
   /* restore the saved values of the special chars */
 #ifdef USG
-#if !defined(MSDOS)
   (void) ioctl(0, TCSETA, (char *)&save_termio);
-#endif
 #else
 #ifndef VMS
   (void) ioctl(0, TIOCSLTC, (char *)&save_special_chars);
@@ -383,21 +353,15 @@ void restore_term()
 void shell_out()
 {
 #ifdef USG
-#if !defined(MSDOS)
   struct termio tbuf;
-#endif
 #else
   struct sgttyb tbuf;
   struct ltchars lcbuf;
   struct tchars cbuf;
   int lbuf;
 #endif
-#ifdef MSDOS
-  char	*comspec, key;
-#else
   int val;
   char *str;
-#endif
 
   save_screen();
   /* clear screen and print 'exit' message */
@@ -406,9 +370,7 @@ void shell_out()
   put_qio();
 
 #ifdef USG
-#if !defined(MSDOS)
   (void) ioctl(0, TCGETA, (char *)&tbuf);
-#endif
 #else
 #ifndef VMS
   (void) ioctl(0, TIOCGETP, (char *)&tbuf);
@@ -423,44 +385,20 @@ void shell_out()
 #else
   use_value nocbreak();
 #endif
-#ifdef MSDOS
-  use_value msdos_noraw();
-#endif
   use_value echo();
   ignore_signals();
-#ifdef MSDOS		/*{*/
-  if ((comspec = getenv("COMSPEC")) == NULL
-  ||  spawnl(P_WAIT, comspec, comspec, (char *) NULL) < 0) {
-	clear_screen();	/* BOSS key if shell failed */
-	put_buffer("M:\\> ", 0, 0);
-	do {
-	  key = inkey();
-	} while (key != '!');
-  }
-
-#else		/* MSDOS }{*/
   val = fork();
   if (val == 0)
     {
       default_signals();
 #ifdef USG
-#if !defined(MSDOS)
       (void) ioctl(0, TCSETA, (char *)&save_termio);
-#endif
 #else
 #ifndef VMS
       (void) ioctl(0, TIOCSLTC, (char *)&save_special_chars);
       (void) ioctl(0, TIOCSETP, (char *)&save_ttyb);
       (void) ioctl(0, TIOCSETC, (char *)&save_tchars);
       (void) ioctl(0, TIOCLSET, (char *)&save_local_chars);
-#endif
-#endif
-#ifndef MSDOS
-      /* close scoreboard descriptor */
-      /* it is not open on MSDOS machines */
-#if 0
-      /* this file is not open now, see init_file() in files.c */
-      (void) close(highscore_fd);
 #endif
 #endif
       if (str = getenv("SHELL"))
@@ -480,7 +418,6 @@ void shell_out()
 #else
   (void) wait((union wait *) 0);
 #endif
-#endif		 /* MSDOS }*/
   restore_signals();
   /* restore the cave to the screen */
   restore_screen();
@@ -491,15 +428,10 @@ void shell_out()
 #endif
   use_value noecho();
   /* would call nonl() here if could use nl()/nonl(), see moriaterm() */
-#ifdef MSDOS
-  msdos_raw();
-#endif
   /* disable all of the local special characters except the suspend char */
   /* have to disable ^Y for tunneling */
 #ifdef USG
-#if !defined(MSDOS)
   (void) ioctl(0, TCSETA, (char *)&tbuf);
-#endif
 #else
 #ifndef VMS
   (void) ioctl(0, TIOCSLTC, (char *)&lcbuf);
@@ -524,11 +456,7 @@ char inkey()
   command_count = 0;  /* Just to be safe -CJS- */
   while (TRUE)
     {
-#ifdef MSDOS
-      i = msdos_getch();
-#else
       i = getch();
-#endif
 
       /* some machines may not sign extend. */
       if (i == EOF)
@@ -567,10 +495,6 @@ char inkey()
 /* Flush the buffer					-RAK-	*/
 void flush()
 {
-#ifdef MSDOS
-  while (kbhit())
-	(void) getch();
-#else
   /* the code originally used ioctls, TIOCDRAIN, or TIOCGETP/TIOCSETP, or
      TCGETA/TCSETAF, however this occasionally resulted in loss of output,
      the happened especially often when rlogin from BSD to SYS_V machine,
@@ -578,7 +502,6 @@ void flush()
   /* wierd things happen on EOF, don't try to flush input in that case */
   if (!eof_flag)
     while (check_input(0));
-#endif
 
   /* used to call put_qio() here to drain output, but it is not necessary */
 }
@@ -925,12 +848,7 @@ int delay;
   if (dummy == 'Q')
     {
       erase_line(prt_line, 0);
-#ifndef MSDOS		/* PCs are slow enough as is  -dgk */
       if (delay > 0)  (void) sleep((unsigned)delay);
-#else
-      /* prevent message about delay unused */
-      dummy = delay;
-#endif
       exit_game();
     }
   erase_line(prt_line, 0);
@@ -963,15 +881,7 @@ void bell()
 #define VE 5
 
 /* character set to use */
-#ifdef MSDOS
-# ifdef ANSI
-#   define CH(x)	(ansi ? screen_border[0][x] : screen_border[1][x])
-# else
-#   define CH(x)	(screen_border[1][x])
-# endif
-#else
 #   define CH(x)	(screen_border[0][x])
-#endif
 
   /* Display highest priority object in the RATIO by RATIO area */
 #define	RATIO 3
@@ -994,13 +904,8 @@ void screen_map()
   priority['<'] = 5;
   priority['>'] = 5;
   priority['@'] = 10;
-#ifdef MSDOS
-  priority[wallsym] = -5;
-  priority[floorsym] = -10;
-#else
   priority['#'] = -5;
   priority['.'] = -10;
-#endif
   priority['\''] = -3;
   priority[' '] = -15;
 

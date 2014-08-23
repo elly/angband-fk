@@ -521,18 +521,6 @@ static int sv_write()
   wr_byte((int8u)count);
   wr_byte(prev_char);
 
-#ifdef MSDOS
-  /* must change graphics symbols for walls and floors back to default chars,
-     this is necessary so that if the user changes the graphics line, the
-     program will be able change all existing walls/floors to the new symbol */
-  t_ptr = &t_list[tcptr - 1];
-  for (i = tcptr - 1; i >= MIN_TRIX; i--)
-    {
-      if (t_ptr->tchar == wallsym)
-	t_ptr->tchar = '#';
-      t_ptr--;
-    }
-#endif
   wr_short((int16u)tcptr);
   for (i = MIN_TRIX; i < tcptr; i++)
     wr_item(&t_list[i]);
@@ -625,9 +613,6 @@ char *fnam;
     }
   if (fileptr != NULL)
     {
-#ifdef MSDOS
-      (void) setmode(fileno(fileptr), O_BINARY);
-#endif
       xor_byte = 0;
       wr_byte((int8u)CUR_VERSION_MAJ);
       xor_byte = 0;
@@ -1260,17 +1245,6 @@ int *generate;
       }
       for (i = MIN_MONIX; i < mfptr; i++)
 	rd_monster(&m_list[i]);
-
-#ifdef MSDOS
-      /* change walls and floors to graphic symbols */
-      t_ptr = &t_list[tcptr - 1];
-      for (i = tcptr - 1; i >= MIN_TRIX; i--)
-	{
-	  if (t_ptr->tchar == '#')
-	    t_ptr->tchar = wallsym;
-	  t_ptr--;
-	}
-#endif
 
       /* Restore ghost names & stats etc... */
       c_list[MAX_CREATURES - 1].name[0]='A';

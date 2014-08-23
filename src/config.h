@@ -49,18 +49,14 @@
    below */
 
 /* substitute strchr for index on USG versions of UNIX */
-#if defined(SYS_V) || defined(MSDOS)
+#if defined(SYS_V)
 #define index strchr
 #endif
 
-#if defined(SYS_V) || defined(MSDOS)
+#if defined(SYS_V)
 #ifndef USG
 #define USG
 #endif
-#endif
-
-#ifdef MSDOS
-#define register      /* MSC 4.0 still has a problem with register bugs ... */
 #endif
 
 #if vms

@@ -576,11 +576,7 @@ int y, x;
   else if (cave_ptr->fval == GRANITE_WALL || cave_ptr->fval == BOUNDARY_WALL
 	   || highlight_seams == FALSE)
     {
-#ifdef MSDOS
-      return wallsym;
-#else
       return '#';
-#endif
     }
   else	/* Originally set highlight bit, but that is not portable, now use
 	   the percent sign instead. */
