@@ -40,7 +40,3 @@
    set ROGUE_LIKE to TRUE */
 /* if you change this, you only need to recompile main.c */
 #define ROGUE_LIKE TRUE
-
-/* substitute strchr for index on USG versions of UNIX */
-#define index strchr
-

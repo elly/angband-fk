@@ -2518,50 +2518,6 @@ char *object_str, *mtc_str, *insert;
     }
 }
 
-
-#if 0
-/* this is no longer used anywhere */
-/* Inserts a number into a string				*/
-void insert_num(object_str, mtc_str, number, show_sign)
-char *object_str;
-register char *mtc_str;
-int number;
-int show_sign;
-{
-  int mlen;
-  vtype str1, str2;
-  register char *string, *tmp_str;
-  int flag;
-
-  flag = 1;
-  mlen = strlen(mtc_str);
-  tmp_str = object_str;
-  do
-    {
-      string = index(tmp_str, mtc_str[0]);
-      if (string == NULL)
-	flag = 0;
-      else
-	{
-	  flag = strncmp(string, mtc_str, mlen);
-	  if (flag)
-	    tmp_str = string+1;
-	}
-    }
-  while (flag);
-  if (string)
-    {
-      (void) strncpy(str1, object_str, (int)(string - object_str));
-      str1[(int)(string - object_str)] = '\0';
-      (void) strcpy(str2, string + mlen);
-      if ((number >= 0) && (show_sign))
-	(void) sprintf(object_str, "%s+%d%s", str1, number, str2);
-      else
-	(void) sprintf(object_str, "%s%d%s", str1, number, str2);
-    }
-}
-#endif
-
 void insert_lnum(object_str, mtc_str, number, show_sign)
 char *object_str;
 register char *mtc_str;
@@ -2578,7 +2534,7 @@ int show_sign;
   tmp_str = object_str;
   do
     {
-      string = index(tmp_str, mtc_str[0]);
+      string = strchr(tmp_str, mtc_str[0]);
       if (string == 0)
 	flag = 0;
       else
