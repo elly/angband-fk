@@ -243,12 +243,10 @@ char *p;
 
 #ifdef USG
 #else
-#ifndef SECURE
 #ifdef BSD4_3
 uid_t getuid();
 #else  /* other BSD versions */
 int getuid();
-#endif
 #endif
 #endif
 

@@ -42,13 +42,6 @@
 #define ROGUE_LIKE TRUE
 
 
-/* for the ANDREW distributed file system, define this to ensure that
-   the program is secure with respect to the setuid code, this prohibits
-   inferior shells, also does not relinquish setuid priviledges at the start,
-   but instead calls the ANDREW library routines bePlayer(), beGames(),
-   and Authenticate() */
-/* #define SECURE */
-
 /* if you are compiling on a SYS V version of UNIX, define this */
 #define SYS_V
 
@@ -108,19 +101,4 @@
    of lint errors. */
 #define RTPC_NO_NLS
 #endif
-
-#ifdef SECURE
-extern int PlayerUID;
-#define getuid() PlayerUID
-#define geteuid() PlayerUID
-#endif
-
-
-
-
-
-
-
-
-
 

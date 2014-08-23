@@ -79,12 +79,10 @@ char *getenv();
 #ifndef MAC
 #ifdef USG
 #else
-#ifndef SECURE
 #ifdef BSD4_3
 uid_t getuid(), getgid();
 #else  /* other BSD versions */
 int getuid(), getgid();
-#endif
 #endif
 #endif
 #endif
@@ -163,10 +161,6 @@ char *argv[];
 
 #ifndef SET_UID
   (void) umask(0);
-#endif
-
-#ifdef SECURE
-  Authenticate();
 #endif
 
   /* call this routine to grab a file pointer to the highscore file */

@@ -579,9 +579,6 @@ int save_char()
   vtype temp;
   char *tmp2;
 
-#ifdef SECURE
-  bePlayer();
-#endif
   if (death && NO_SAVE) return TRUE;
 
   if (_save_char(savefile)) {
@@ -594,9 +591,6 @@ int save_char()
   } else {
     return FALSE;
   }
-#ifdef SECURE
-  beGames();
-#endif
   return TRUE;
 }
 
