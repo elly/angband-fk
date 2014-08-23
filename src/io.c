@@ -6,11 +6,6 @@
    not for profit purposes provided that this copyright and statement are
    included in all such copies. */
 
-#if defined(NLS) && defined(lint)
-/* for AIX, don't let curses include the NL stuff */
-#undef NLS
-#endif
-
 #if !defined(GEMDOS)
 #include <curses.h>
 #else
@@ -29,53 +24,15 @@ char *getenv();
 #include <stdlib.h>
 #include <unistd.h>
 
-#if defined(lint)
-/* for AIX, prevent hundreds of unnecessary lint errors, must define before
-   signal.h is included */
-#define _h_IEEETRAP
-typedef struct { int stuff; } fpvmach;
-#endif
-
 #include <sys/ioctl.h>
 #include <signal.h>
 
 #include <string.h>
 #include <termio.h>
 
-#if defined(lint)
-struct screen { int dumb; };
-#endif
-
-/* Fooling lint. Unfortunately, c defines all the TIO.	  -CJS-
-   constants to be long, and lint expects them to be int. Also,
-   ioctl is sometimes called with just two arguments. The
-   following definition keeps lint happy. It may need to be
-   reset for different systems.	 */
-#ifdef lint
-#ifdef Pyramid
-/* Pyramid makes constants greater than 65535 into long! Gakk! -CJS- */
-/*ARGSUSED*/
-/*VARARGS2*/
-static Ioctl(i, l, p) long l; char *p; { return 0; }
-#else
-/*ARGSUSED*/
-/*VARARGS2*/
-static Ioctl(i, l, p) char *p; { return 0; }
-#endif
-#define ioctl	    Ioctl
-#endif
-
 #define use_value
 
-#if defined(lint)
-/* This use_value2 hack is for curses macros which use a conditional
-   expression, and which say null effect even if you cast to (void). */
-/* only needed for SYS V */
-int Use_value2;
-#define use_value2  Use_value2 +=
-#else
 #define use_value2
-#endif
 
 char *getenv();
 
@@ -559,10 +516,6 @@ char *prompt;
 
   prt(prompt, 0, 0);
   getyx(stdscr, y, x);
-#if defined(lint)
-  /* prevent message 'warning: y is unused' */
-  x = y;
-#endif
 #ifdef LINT_ARGS
   /* prevent message about y never used for MSDOS systems */
   res = y;

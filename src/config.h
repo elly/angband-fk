@@ -44,9 +44,3 @@
 /* substitute strchr for index on USG versions of UNIX */
 #define index strchr
 
-#if defined(lint)
-/* to prevent <string.h> from including <NLchar.h>, this prevents a bunch
-   of lint errors. */
-#define RTPC_NO_NLS
-#endif
-

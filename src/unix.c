@@ -20,13 +20,6 @@
 #include "types.h"
 #include "externs.h"
 
-#if defined(lint)
-/* for AIX, prevent hundreds of unnecessary lint errors, must define before
-   signal.h is included */
-#define _h_IEEETRAP
-typedef struct { int stuff; } fpvmach;
-#endif
-
 #include <signal.h>
 
 #ifdef M_XENIX
@@ -42,28 +35,6 @@ typedef struct { int stuff; } fpvmach;
 
 struct passwd *getpwuid();
 struct passwd *getpwnam();
-
-#if defined(lint)
-struct screen { int dumb; };
-#endif
-
-/* Fooling lint. Unfortunately, c defines all the TIO constants to be long,
-   and lint expects them to be int. Also, ioctl is sometimes called with just
-   two arguments. The following definition keeps lint happy. It may need to be
-   reset for different systems. */
-#ifdef lint
-#ifdef Pyramid
-/* Pyramid makes constants greater than 65535 into long! Gakk! -CJS- */
-/*ARGSUSED*/
-/*VARARGS2*/
-static Ioctl(i, l, p) long l; char *p; { return 0; }
-#else
-/*ARGSUSED*/
-/*VARARGS2*/
-static Ioctl(i, l, p) char *p; { return 0; }
-#endif
-#define ioctl	    Ioctl
-#endif
 
 /* Provides for a timeout on input. Does a non-blocking read, consuming the
    data if any, and then returns 1 if data was read, zero otherwise.
