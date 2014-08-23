@@ -29,7 +29,7 @@ char *getenv();
 #include <stdlib.h>
 #include <unistd.h>
 
-#if defined(SYS_V) && defined(lint)
+#if defined(lint)
 /* for AIX, prevent hundreds of unnecessary lint errors, must define before
    signal.h is included */
 #define _h_IEEETRAP
@@ -42,7 +42,7 @@ typedef struct { int stuff; } fpvmach;
 #include <string.h>
 #include <termio.h>
 
-#if defined(SYS_V) && defined(lint)
+#if defined(lint)
 struct screen { int dumb; };
 #endif
 
@@ -67,7 +67,7 @@ static Ioctl(i, l, p) char *p; { return 0; }
 
 #define use_value
 
-#if defined(SYS_V) && defined(lint)
+#if defined(lint)
 /* This use_value2 hack is for curses macros which use a conditional
    expression, and which say null effect even if you cast to (void). */
 /* only needed for SYS V */

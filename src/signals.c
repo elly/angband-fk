@@ -14,7 +14,7 @@
 /* to get the SYS_V def if needed */
 #include "config.h"
 
-#if defined(SYS_V) && defined(lint)
+#if defined(lint)
 /* for AIX, prevent hundreds of unnecessary lint errors, define before
    signal.h is included */
 #define _h_IEEETRAP

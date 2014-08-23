@@ -41,19 +41,10 @@
 /* if you change this, you only need to recompile main.c */
 #define ROGUE_LIKE TRUE
 
-
-/* if you are compiling on a SYS V version of UNIX, define this */
-#define SYS_V
-
-/* system dependent defines follow, you should not need to change anything
-   below */
-
 /* substitute strchr for index on USG versions of UNIX */
-#if defined(SYS_V)
 #define index strchr
-#endif
 
-#if defined(SYS_V) && defined(lint)
+#if defined(lint)
 /* to prevent <string.h> from including <NLchar.h>, this prevents a bunch
    of lint errors. */
 #define RTPC_NO_NLS

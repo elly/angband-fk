@@ -20,7 +20,7 @@
 #include "types.h"
 #include "externs.h"
 
-#if defined(SYS_V) && defined(lint)
+#if defined(lint)
 /* for AIX, prevent hundreds of unnecessary lint errors, must define before
    signal.h is included */
 #define _h_IEEETRAP
@@ -43,7 +43,7 @@ typedef struct { int stuff; } fpvmach;
 struct passwd *getpwuid();
 struct passwd *getpwnam();
 
-#if defined(SYS_V) && defined(lint)
+#if defined(lint)
 struct screen { int dumb; };
 #endif
 

@@ -45,9 +45,7 @@ off_t lseek();
 void perror();
 void exit ();
 
-#ifdef SYS_V
 struct passwd *getpwuid();
-#endif
 
 #if defined(LINT_ARGS)
 static void date(char *);
