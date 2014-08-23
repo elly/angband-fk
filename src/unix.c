@@ -22,10 +22,6 @@
 
 #include <signal.h>
 
-#ifdef M_XENIX
-#include <sys/select.h>
-#endif
-
 #include <string.h>
 #include <termio.h>
 #include <fcntl.h>
@@ -55,43 +51,9 @@ struct passwd *getpwnam();
 int check_input(microsec)
 int microsec;
 {
-#if !defined(M_XENIX)
   int arg, result;
-#else
-  struct timeval tbuf;
-  int ch;
-#if defined(BSD4_3) || defined(M_XENIX)
-  fd_set smask;
-#else
-  int smask;
-#endif
-#endif
 
   /* Return true if a read on descriptor 1 will not block. */
-#if defined(M_XENIX)
-  tbuf.tv_sec = 0;
-  tbuf.tv_usec = microsec;
-#if defined(BSD4_3) || defined(M_XENIX)
-  FD_ZERO(&smask);
-  FD_SET(fileno(stdin), &smask);
-  if (select(1, &smask, (fd_set *)0, (fd_set *)0, &tbuf) == 1)
-#else
-  smask = 1;  /* i.e. (1 << 0) */
-  if (select(1, &smask, (int *)0, (int *)0, &tbuf) == 1)
-#endif
-    {
-      ch = getch();
-      /* check for EOF errors here, select sometimes works even when EOF */
-      if (ch == -1)
-	{
-	  eof_flag++;
-	  return 0;
-	}
-      return 1;
-    }
-  else
-    return 0;
-#else /* SYS V code follows */
   if (microsec != 0 && (turn & 0x7F) == 0)
     (void) sleep (1); /* mod 128, sleep one sec every 128 turns */
   /* Can't check for input, but can do non-blocking read, so... */
@@ -111,7 +73,6 @@ int microsec;
     return 0;
   else
     return 1;
-#endif
 }
 
 #if 0
