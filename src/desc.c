@@ -13,13 +13,9 @@
 
 #include <string.h>
 
-#if defined(LINT_ARGS)
 static void randes(void);
 static void rantitle(char *);
 static void unsample(inven_type *);
-#else
-static void unsample();
-#endif
 
 char titles[MAX_TITLES][10];
 

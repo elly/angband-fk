@@ -14,11 +14,7 @@
 
 #include <string.h>
 
-#if defined(LINT_ARGS)
 static void replace_spot(int, int, int);
-#else
-static void replace_spot();
-#endif
 
 char *pain_message();
 

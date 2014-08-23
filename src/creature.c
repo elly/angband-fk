@@ -14,14 +14,12 @@
 
 #include <string.h>
 
-#if defined(LINT_ARGS)
 static void get_moves(int, int *);
 static void make_attack(int);
 static void make_move(int, int *, int32u *);
 static void mon_cast_spell(int, int *);
 static void mon_move(int, int32u *);
 static int check_mon_lite(int, int);
-#endif
 
 static shatter_quake();
 static br_wall();

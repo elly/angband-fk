@@ -489,10 +489,6 @@ char *prompt;
 
   prt(prompt, 0, 0);
   getyx(stdscr, y, x);
-#ifdef LINT_ARGS
-  /* prevent message about y never used for MSDOS systems */
-  res = y;
-#endif
 
   if (x > 73)
     (void) move(0, 73);

@@ -39,12 +39,10 @@ void exit ();
 
 struct passwd *getpwuid();
 
-#if defined(LINT_ARGS)
 static void date(char *);
 static char *center_string(char *, char *);
 static void print_tomb(void);
 static void kingly(void);
-#endif
 
 char *getlogin();
 long time();

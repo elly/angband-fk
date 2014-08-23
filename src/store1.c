@@ -13,13 +13,8 @@
 
 #include <string.h>
 
-#if defined(LINT_ARGS)
 static void insert_store(int, int, int32, struct inven_type *);
 static void store_create(int);
-#else
-static void insert_store();
-static void store_create();
-#endif
 
 extern int is_home;
 

@@ -38,10 +38,8 @@ typedef struct statstime {
   struct timeval curtime;
 } statstime;
 
-#if defined(LINT_ARGS)
 static int compact_monsters(void);
 static void compact_objects(void);
-#endif
 
 long time();
 struct tm *localtime();
