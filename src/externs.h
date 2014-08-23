@@ -290,7 +290,6 @@ int main(int, char **);
 void init_seeds(int32u);
 void set_seed(int32u);
 void reset_seed(void);
-int check_time(void);
 int randint(int);
 int randnor(int, int);
 int bit_pos(int32u *);

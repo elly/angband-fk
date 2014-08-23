@@ -19,25 +19,6 @@
 
 #include <string.h>
 
-typedef struct statstime {
-  int cp_time[4];
-  int dk_xfer[4];
-  unsigned int v_pgpgin;
-  unsigned int v_pgpgout;
-  unsigned int v_pswpin;
-  unsigned int v_pswpout;
-  unsigned int v_intr;
-  int if_ipackets;
-  int if_ierrors;
-  int if_opackets;
-  int if_oerrors;
-  int if_collisions;
-  unsigned int v_swtch;
-  long avenrun[3];
-  struct timeval boottime;
-  struct timeval curtime;
-} statstime;
-
 static int compact_monsters(void);
 static void compact_objects(void);
 
@@ -87,14 +68,6 @@ void reset_seed()
 {
   set_rnd_seed (old_seed);
 }
-
-
-/* Check the day-time strings to see if open		-RAK-	*/
-int check_time()
-{
-  return TRUE;
-}
-
 
 /* Generates a random integer x where 1<=X<=MAXVAL	-RAK-	*/
 int randint(maxval)

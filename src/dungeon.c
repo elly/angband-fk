@@ -141,27 +141,6 @@ void dungeon()
     {
       /* Increment turn counter			*/
       turn++;
-      /* The Mac ignores the game hours file		*/
-      /* Check for game hours			       */
-      if (((turn % 100) == 1) && !check_time())
-	if (closing_flag > 2)
-	  {
-	    msg_print("The gates to ANGBAND are now closed.");
-	    (void) strcpy (died_from, "(closing gate: saved)");
-	    if (!save_char())
-	      {
-		(void) strcpy (died_from, "a slammed gate");
-		death = TRUE;
-	      }
-	    exit_game();
-	  }
-	else
-	  {
-	    disturb (0, 0);
-	    closing_flag++;
-	    msg_print("The gates to ANGBAND are closing due to high load.");
-	    msg_print("Please finish up or save your game.");
-	  }
 
       /* turn over the store contents every, say, 1000 turns */
       if ((dun_level != 0) && ((turn % 1000) == 0)) {
