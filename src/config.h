@@ -52,9 +52,6 @@
 /* if you are compiling on a SYS V version of UNIX, define this */
 #define SYS_V
 
-/* if you are compiling on a SYS III version of UNIX, define this */
-/* #define SYS_III */
-
 /* if you are compiling on an ATARI ST with Mark Williams C, define this */
 /* #define ATARIST_MWC */
 
@@ -70,11 +67,7 @@
 #define index strchr
 #endif
 
-#ifdef SYS_III
-char *index();
-#endif
-
-#if defined(SYS_III) || defined(SYS_V) || defined(MSDOS) || defined(MAC)
+#if defined(SYS_V) || defined(MSDOS) || defined(MAC)
 #ifndef USG
 #define USG
 #endif
