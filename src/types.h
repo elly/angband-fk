@@ -41,7 +41,7 @@ typedef int16u attid;
 
 typedef struct creature_type
 {
-  char *name;		/* Descrip of creature	*/
+  char name[128];		/* Descrip of creature	*/
   int32u cmove;		/* Bit field		*/
   int32u spells;	/* Creature spells	*/
   int32u cdefense;	/* Bit field		*/
