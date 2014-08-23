@@ -56,11 +56,7 @@ void init_curses()
 
   (void) ioctl(0, TCGETA, (char *)&save_termio);
 
-#if !defined(PC_CURSES)	/* PC curses returns ERR */
   if (initscr() == NULL)
-#else
-  if (initscr() == ERR)
-#endif
     {
       (void) printf("Error allocating screen in curses package.\n");
       exit(1);
