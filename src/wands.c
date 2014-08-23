@@ -11,11 +11,7 @@
 #include "types.h"
 #include "externs.h"
 
-#ifdef USG
 #include <string.h>
-#else
-#include <strings.h>
-#endif
 
 /* Wands for the aiming.				*/
 void aim()

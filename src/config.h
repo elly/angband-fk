@@ -53,12 +53,6 @@
 #define index strchr
 #endif
 
-#if defined(SYS_V)
-#ifndef USG
-#define USG
-#endif
-#endif
-
 #if defined(SYS_V) && defined(lint)
 /* to prevent <string.h> from including <NLchar.h>, this prevents a bunch
    of lint errors. */

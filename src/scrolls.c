@@ -12,11 +12,7 @@
 #include "types.h"
 #include "externs.h"
 
-#ifdef USG
 #include <string.h>
-#else
-#include <strings.h>
-#endif
 
 /* Scrolls for the reading				-RAK-	*/
 void read_scroll()

@@ -12,12 +12,10 @@
 #include "externs.h"
 #include "monster.h"
 
-#ifdef USG
 #ifndef __TURBOC__
 #include <memory.h>
 #else
 #include <mem.h>
-#endif
 #endif
 
 #include <stdlib.h>
@@ -84,11 +82,7 @@ int *rdir, *cdir;
 /* Blanks out entire cave				-RAK-	*/
 static void blank_cave()
 {
-#ifndef USG
-  bzero ((char *)&cave[0][0], sizeof (cave));
-#else
   (void)memset((char *)&cave[0][0], 0, sizeof (cave));
-#endif
 }
 
 

@@ -33,33 +33,15 @@ typedef struct { int stuff; } fpvmach;
 #include <sys/select.h>
 #endif
 
-#ifndef USG
-#include <sys/time.h>
-#include <sys/resource.h>
-#include <sys/types.h>
-#include <sys/param.h>
-#endif
-
-#ifdef USG
 #include <string.h>
 #include <termio.h>
 #include <fcntl.h>
-#else
-#include <strings.h>
-#if defined(atarist) && defined(__GNUC__)
-/* doesn't have <sys/wait.h> */
-#else
-#include <sys/wait.h>
-#endif
-#endif
 
 #include <pwd.h>
 #include <sys/errno.h>
 
-#ifdef USG
 struct passwd *getpwuid();
 struct passwd *getpwnam();
-#endif
 
 #if defined(SYS_V) && defined(lint)
 struct screen { int dumb; };
@@ -102,7 +84,7 @@ static Ioctl(i, l, p) char *p; { return 0; }
 int check_input(microsec)
 int microsec;
 {
-#if defined(USG) && !defined(M_XENIX)
+#if !defined(M_XENIX)
   int arg, result;
 #else
   struct timeval tbuf;
@@ -115,7 +97,7 @@ int microsec;
 #endif
 
   /* Return true if a read on descriptor 1 will not block. */
-#if !defined(USG) || defined(M_XENIX)
+#if defined(M_XENIX)
   tbuf.tv_sec = 0;
   tbuf.tv_usec = microsec;
 #if defined(BSD4_3) || defined(M_XENIX)
@@ -239,15 +221,6 @@ char *p;
   moriaterm();			/* Terminal in moria mode. */
   return 0;
 }
-#endif
-
-#ifdef USG
-#else
-#ifdef BSD4_3
-uid_t getuid();
-#else  /* other BSD versions */
-int getuid();
-#endif
 #endif
 
 /* Find a default user name from the system. */

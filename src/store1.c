@@ -11,11 +11,7 @@
 #include "types.h"
 #include "externs.h"
 
-#ifdef USG
 #include <string.h>
-#else
-#include <strings.h>
-#endif
 
 #if defined(LINT_ARGS)
 static void insert_store(int, int, int32, struct inven_type *);

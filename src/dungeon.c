@@ -12,11 +12,7 @@
 #include "externs.h"
 #include "monster.h"
 
-#ifdef USG
 #include <string.h>
-#else
-#include <strings.h>
-#endif
 
 static char original_commands();
 static void do_command();

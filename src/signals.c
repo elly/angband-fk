@@ -28,40 +28,19 @@ typedef struct { int stuff; } fpvmach;
 #include "types.h"
 #include "externs.h"
 
-#ifndef USG
-/* only needed for Berkeley UNIX */
-#include <sys/types.h>
-#include <sys/param.h>
-#endif
-
-#ifdef USG
 #include <string.h>
-#else
-#include <strings.h>
-#endif
 
-#ifdef USG
 void exit();
 #ifdef __TURBOC__
 void sleep();
 #else
 unsigned sleep();
 #endif
-#endif
 
 static int error_sig = -1;
 static int signal_count = 0;
 
 /*ARGSUSED*/
-#ifndef USG
-static int signal_handler(sig, code, scp)
-int sig, code;
-struct sigcontext *scp;
-{
-  int smask;
-
-  smask = sigsetmask(0) | (1 << sig);
-#else
 #ifdef __TURBOC__
 static void signal_handler(sig)
 #else
@@ -70,7 +49,6 @@ static void signal_handler(sig)
 int sig;
 {
 
-#endif
   if(error_sig >= 0)	/* Ignore all second signals. */
     {
       if(++signal_count > 10)	/* Be safe. We will die if persistent enough. */
@@ -96,11 +74,7 @@ int sig;
 	      erase_line(0, 0);
 	      put_qio();
 	      error_sig = -1;
-#ifdef USG
 	      (void) signal(sig, signal_handler);/* Have to restore handler. */
-#else
-	      (void) sigsetmask(smask);
-#endif
 	      /* in case control-c typed during msg_print */
 	      if (wait_for_more)
 		put_buffer(" -more-", MSG_LINE, 0);
@@ -144,17 +118,10 @@ int sig;
   exit(1);
 }
 
-#ifndef USG
-static int mask;
-#endif
-
 void nosignals()
 {
 #ifdef SIGTSTP
   (void) signal(SIGTSTP, SIG_IGN);
-#ifndef USG
-  mask = sigsetmask(0);
-#endif
 #endif
   if (error_sig < 0)
     error_sig = 0;
@@ -164,9 +131,6 @@ void signals()
 {
 #ifdef SIGTSTP
   (void) signal(SIGTSTP, suspend);
-#ifndef USG
-  (void) sigsetmask(mask);
-#endif
 #endif
   if (error_sig == 0)
     error_sig = -1;

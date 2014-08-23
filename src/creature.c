@@ -12,11 +12,7 @@
 #include "types.h"
 #include "externs.h"
 
-#ifdef USG
 #include <string.h>
-#else
-#include <strings.h>
-#endif
 
 #if defined(LINT_ARGS)
 static void get_moves(int, int *);

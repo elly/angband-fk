@@ -23,21 +23,10 @@
 
 #include <ctype.h>
 
-#ifndef USG
-/* only needed for Berkeley UNIX */
-#include <sys/param.h>
-#include <sys/types.h>
-#include <sys/file.h>
-#endif
-
 #include <pwd.h>
 
-#ifdef USG
 #include <string.h>
 #include <fcntl.h>
-#else
-#include <strings.h>
-#endif
 
 #ifndef MIN
 #define MIN(a, b)	((a < b) ? a : b)
@@ -49,16 +38,12 @@ long lseek();
 off_t lseek();
 #endif
 
-#if defined(USG)
 #ifndef L_SET
 #define L_SET 0
 #endif
-#endif
 
-#if defined(USG)
 void perror();
 void exit ();
-#endif
 
 #ifdef SYS_V
 struct passwd *getpwuid();

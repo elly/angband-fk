@@ -39,24 +39,8 @@ typedef struct { int stuff; } fpvmach;
 #include <sys/ioctl.h>
 #include <signal.h>
 
-#ifndef USG
-/* only needed for Berkeley UNIX */
-#include <sys/param.h>
-#include <sys/file.h>
-#include <sys/types.h>
-#endif
-
-#ifdef USG
 #include <string.h>
 #include <termio.h>
-#else
-#include <strings.h>
-#if defined(atarist) && defined(__GNUC__)
-/* doesn't have sys/wait.h */
-#else
-#include <sys/wait.h>
-#endif
-#endif
 
 #if defined(SYS_V) && defined(lint)
 struct screen { int dumb; };
@@ -81,15 +65,7 @@ static Ioctl(i, l, p) char *p; { return 0; }
 #define ioctl	    Ioctl
 #endif
 
-#if !defined(USG) && defined(lint)
-/* This use_value hack is for curses macros which return a value,
-   but don't shut up about it when you try to tell them (void).	 */
-/* only needed for Berkeley UNIX */
-int Use_value;
-#define use_value   Use_value +=
-#else
 #define use_value
-#endif
 
 #if defined(SYS_V) && defined(lint)
 /* This use_value2 hack is for curses macros which use a conditional
@@ -103,23 +79,14 @@ int Use_value2;
 
 char *getenv();
 
-#ifdef USG
 void exit();
 #ifdef __TURBOC__
 void sleep();
 #else
 unsigned sleep();
 #endif
-#endif
 
-#ifdef USG
 static struct termio save_termio;
-#else
-static struct ltchars save_special_chars;
-static struct sgttyb save_ttyb;
-static struct tchars save_tchars;
-static int save_local_chars;
-#endif
 
 static int curses_on = FALSE;
 static WINDOW *savescr;		/* Spare window for saving the screen. -CJS- */
@@ -131,33 +98,8 @@ static WINDOW *savescr;		/* Spare window for saving the screen. -CJS- */
    restored.  */
 void suspend(int sig)
 {
-#ifdef USG
   /* for USG systems with BSDisms that have SIGTSTP defined, but don't
      actually implement it */
-#else
-  struct sgttyb tbuf;
-  struct ltchars lcbuf;
-  struct tchars cbuf;
-  int lbuf;
-  long time();
-
-  py.misc.male |= 2;
-  (void) ioctl(0, TIOCGETP, (char *)&tbuf);
-  (void) ioctl(0, TIOCGETC, (char *)&cbuf);
-  (void) ioctl(0, TIOCGLTC, (char *)&lcbuf);
-  (void) ioctl(0, TIOCLGET, (char *)&lbuf);
-  restore_term();
-  (void) kill(0, SIGSTOP);
-  curses_on = TRUE;
-  (void) ioctl(0, TIOCSETP, (char *)&tbuf);
-  (void) ioctl(0, TIOCSETC, (char *)&cbuf);
-  (void) ioctl(0, TIOCSLTC, (char *)&lcbuf);
-  (void) ioctl(0, TIOCLSET, (char *)&lbuf);
-  (void) wrefresh(curscr);
-  cbreak();
-  noecho();
-  py.misc.male &= ~2;
-#endif
 }
 #endif
 
@@ -166,16 +108,9 @@ void init_curses()
 {
   int i, y, x;
 
-#ifndef USG
-  (void) ioctl(0, TIOCGLTC, (char *)&save_special_chars);
-  (void) ioctl(0, TIOCGETP, (char *)&save_ttyb);
-  (void) ioctl(0, TIOCGETC, (char *)&save_tchars);
-  (void) ioctl(0, TIOCLGET, (char *)&save_local_chars);
-#else
   (void) ioctl(0, TCGETA, (char *)&save_termio);
-#endif
 
-#if defined(USG) && !defined(PC_CURSES)	/* PC curses returns ERR */
+#if !defined(PC_CURSES)	/* PC curses returns ERR */
   if (initscr() == NULL)
 #else
   if (initscr() == ERR)
@@ -220,12 +155,7 @@ void init_curses()
 /* Set up the terminal into a suitable state for moria.	 -CJS- */
 void moriaterm()
 {
-#ifdef USG
   struct termio tbuf;
-#else
-  struct ltchars lbuf;
-  struct tchars buf;
-#endif
 
   curses_on = TRUE;
 #ifndef BSD4_3
@@ -235,7 +165,6 @@ void moriaterm()
 #endif
   use_value noecho();
   /* can not use nonl(), because some curses do not handle it correctly */
-#ifdef USG
   (void) ioctl(0, TCGETA, (char *)&tbuf);
   /* disable all of the normal special control characters */
   tbuf.c_cc[VINTR] = (char)3; /* control-C */
@@ -249,27 +178,6 @@ void moriaterm()
   tbuf.c_cc[VTIME] = 0; /* no matter how long that takes. */
 
   (void) ioctl(0, TCSETA, (char *)&tbuf);
-#else
-  /* disable all of the special characters except the suspend char, interrupt
-     char, and the control flow start/stop characters */
-  (void) ioctl(0, TIOCGLTC, (char *)&lbuf);
-  lbuf.t_suspc = (char)26; /* control-Z */
-  lbuf.t_dsuspc = (char)-1;
-  lbuf.t_rprntc = (char)-1;
-  lbuf.t_flushc = (char)-1;
-  lbuf.t_werasc = (char)-1;
-  lbuf.t_lnextc = (char)-1;
-  (void) ioctl(0, TIOCSLTC, (char *)&lbuf);
-
-  (void) ioctl (0, TIOCGETC, (char *)&buf);
-  buf.t_intrc = (char)3; /* control-C */
-  buf.t_quitc = (char)-1;
-  buf.t_startc = (char)17; /* control-Q */
-  buf.t_stopc = (char)19; /* control-S */
-  buf.t_eofc = (char)-1;
-  buf.t_brkc = (char)-1;
-  (void) ioctl(0, TIOCSETC, (char *)&buf);
-#endif
 }
 
 
@@ -320,28 +228,14 @@ void restore_term()
   endwin();  /* exit curses */
   (void) fflush (stdout);
   /* restore the saved values of the special chars */
-#ifdef USG
   (void) ioctl(0, TCSETA, (char *)&save_termio);
-#else
-  (void) ioctl(0, TIOCSLTC, (char *)&save_special_chars);
-  (void) ioctl(0, TIOCSETP, (char *)&save_ttyb);
-  (void) ioctl(0, TIOCSETC, (char *)&save_tchars);
-  (void) ioctl(0, TIOCLSET, (char *)&save_local_chars);
-#endif
   curses_on = FALSE;
 }
 
 
 void shell_out()
 {
-#ifdef USG
   struct termio tbuf;
-#else
-  struct sgttyb tbuf;
-  struct ltchars lcbuf;
-  struct tchars cbuf;
-  int lbuf;
-#endif
   int val;
   char *str;
 
@@ -351,14 +245,7 @@ void shell_out()
   put_buffer("[Entering shell, type 'exit' to resume your game.]\n",0,0);
   put_qio();
 
-#ifdef USG
   (void) ioctl(0, TCGETA, (char *)&tbuf);
-#else
-  (void) ioctl(0, TIOCGETP, (char *)&tbuf);
-  (void) ioctl(0, TIOCGETC, (char *)&cbuf);
-  (void) ioctl(0, TIOCGLTC, (char *)&lcbuf);
-  (void) ioctl(0, TIOCLGET, (char *)&lbuf);
-#endif
   /* would call nl() here if could use nl()/nonl(), see moriaterm() */
 #ifndef BSD4_3
   use_value nocrmode();
@@ -371,14 +258,7 @@ void shell_out()
   if (val == 0)
     {
       default_signals();
-#ifdef USG
       (void) ioctl(0, TCSETA, (char *)&save_termio);
-#else
-      (void) ioctl(0, TIOCSLTC, (char *)&save_special_chars);
-      (void) ioctl(0, TIOCSETP, (char *)&save_ttyb);
-      (void) ioctl(0, TIOCSETC, (char *)&save_tchars);
-      (void) ioctl(0, TIOCLSET, (char *)&save_local_chars);
-#endif
       if (str = getenv("SHELL"))
 	(void) execl(str, str, (char *) 0);
       else
@@ -391,11 +271,7 @@ void shell_out()
       msg_print("Fork failed. Try again.");
       return;
     }
-#ifdef USG
   (void) wait((int *) 0);
-#else
-  (void) wait((union wait *) 0);
-#endif
   restore_signals();
   /* restore the cave to the screen */
   restore_screen();
@@ -408,14 +284,7 @@ void shell_out()
   /* would call nonl() here if could use nl()/nonl(), see moriaterm() */
   /* disable all of the local special characters except the suspend char */
   /* have to disable ^Y for tunneling */
-#ifdef USG
   (void) ioctl(0, TCSETA, (char *)&tbuf);
-#else
-  (void) ioctl(0, TIOCSLTC, (char *)&lcbuf);
-  (void) ioctl(0, TIOCSETP, (char *)&tbuf);
-  (void) ioctl(0, TIOCSETC, (char *)&cbuf);
-  (void) ioctl(0, TIOCLSET, (char *)&lbuf);
-#endif
   (void) wrefresh(curscr);
 }
 

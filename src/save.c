@@ -13,19 +13,8 @@
 #include "types.h"
 #include "externs.h"
 
-#ifndef USG
-/* stuff only needed for Berkeley UNIX */
-#include <sys/types.h>
-#include <sys/file.h>
-#include <sys/param.h>
-#endif
-
-#ifdef USG
 #include <string.h>
 #include <fcntl.h>
-#else
-#include <strings.h>
-#endif
 
 static int sv_write();
 static void wr_byte();

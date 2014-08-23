@@ -50,50 +50,22 @@
 
 #include <stdio.h>
 
-/* include before constant, because param.h defines NULL incorrectly */
-#ifndef USG
-#include <sys/types.h>
-#include <sys/param.h>
-#include <sys/time.h>
-#include <sys/resource.h>
-#endif
-
 #include "constant.h"
 #include "config.h"
 #include "types.h"
 #include "externs.h"
 
-#ifdef USG
 #include <string.h>
-#else
-#include <strings.h>
-#endif
-
 #include <ctype.h>
 
 #include <time.h>
+#include <sys/resource.h>
 
 long time();
 char *getenv();
 
-#ifdef USG
-#else
-#ifdef BSD4_3
-uid_t getuid(), getgid();
-#else  /* other BSD versions */
-int getuid(), getgid();
-#endif
-#endif
-
-
-#if defined(USG)
 void perror();
-#endif
-
-#ifdef USG
 void exit();
-#endif
-
 
 static void char_inven_init();
 static void init_m_level();

@@ -20,17 +20,10 @@
 char *strcat();
 #endif
 
-#ifdef USG
 #include <string.h>
 #include <fcntl.h>
-#else
-#include <strings.h>
-#include <sys/file.h>
-#endif
 
-#if defined(USG)
 void exit();
-#endif
 
 /* Not touched for Mac port */
 /*

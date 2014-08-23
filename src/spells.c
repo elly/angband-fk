@@ -12,11 +12,7 @@
 #include "monster.h"
 #include "externs.h"
 
-#ifdef USG
 #include <string.h>
-#else
-#include <strings.h>
-#endif
 
 #if defined(LINT_ARGS)
 static void replace_spot(int, int, int);

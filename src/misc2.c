@@ -8,12 +8,6 @@
 
 #include "monster.h"
 
-/* include before constant.h because param.h defines NULL incorrectly */
-#ifndef USG
-#include <sys/types.h>
-#include <sys/param.h>
-#endif
-
 #include "constant.h"
 #include "config.h"
 #include "types.h"
@@ -21,11 +15,7 @@
 
 #include <ctype.h>
 
-#ifdef USG
 #include <string.h>
-#else
-#include <strings.h>
-#endif
 
 #if defined(LINT_ARGS)
 static void prt_lnum(char *, int32, int, int);
