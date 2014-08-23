@@ -90,7 +90,7 @@ int getuid(), getgid();
 #endif
 
 
-#if defined(ultrix) || defined(USG)
+#if defined(USG)
 void perror();
 #endif
 

@@ -144,10 +144,6 @@ void sleep();
 unsigned sleep();
 #endif
 #endif
-#ifdef ultrix
-void exit();
-void sleep();
-#endif
 
 #if !defined(MAC) && !defined(MSDOS) && !defined(ATARIST_MWC)
 #ifdef USG

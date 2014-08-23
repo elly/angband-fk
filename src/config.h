@@ -49,15 +49,6 @@
    and Authenticate() */
 /* #define SECURE */
 
-
-/* no system definitions are needed for 4.3BSD, SUN OS, DG/UX */
-
-/* if you are compiling on an ultrix/4.2BSD/Dynix/etc. version of UNIX,
-   define this, not needed for SUNs */
-/* #ifndef ultrix
-#define ultrix
-#endif */
-
 /* if you are compiling on a SYS V version of UNIX, define this */
 #define SYS_V
 
@@ -91,11 +82,6 @@ char *index();
 
 #ifdef ATARIST_MWC
 #define USG
-#endif
-
-/* Pyramid runs 4.2BSD-like UNIX version */
-#if defined(Pyramid)
-#define ultrix
 #endif
 
 #ifdef MSDOS

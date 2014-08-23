@@ -39,7 +39,7 @@ char *strcat();
 #endif
 
 #ifndef VMS
-#if defined(ultrix) || defined(USG)
+#if defined(USG)
 void exit();
 #endif
 #endif

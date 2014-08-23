@@ -69,7 +69,7 @@ off_t lseek();
 
 #ifndef VMS
 #ifndef MAC
-#if defined(ultrix) || defined(USG)
+#if defined(USG)
 void perror();
 void exit ();
 #endif
