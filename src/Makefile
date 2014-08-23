@@ -3,14 +3,14 @@
 # LIBDIR is where the other files (score, news, hours) will be put
 # OBJDIR is where the object files will be put
 
-THISDIR = /home/staff/greyhelm/games/angband
+THISDIR = $(PWD)/..
 
 SRCDIR = $(THISDIR)/src
 OBJDIR = $(THISDIR)/obj
 LIBDIR = $(THISDIR)/lib
 BINDIR = $(THISDIR)/bin
 
-CFLAGS = -g -fwritable-strings -DLIBDIR=\"$(LIBDIR)\" 
+CFLAGS = -g -DLIBDIR=\"$(LIBDIR)\" 
 CC = gcc
 
 SOURCES = main.c misc1.c misc2.c store1.c files.c io.c create.c desc.c\
@@ -44,9 +44,6 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 
 angband: $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(BINDIR)/angband -lcurses -ltermcap -lrpcsvc
-	@chgrp games $(BINDIR)/$(PROGRAM)
-	@chmod a+x  $(BINDIR)/$(PROGRAM)
-	@chmod 4770 $(BINDIR)/$(PROGRAM)
 
 clean:;
 	rm -f $(OBJDIR)/*.o $(BINDIR)/core $(OBJDIR)/core ./core

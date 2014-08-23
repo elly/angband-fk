@@ -114,20 +114,6 @@ void reset_seed()
 /* Check the day-time strings to see if open		-RAK-	*/
 int check_time()
 {
-  long clock;
-  register struct tm *tp;
-  struct statstime st;
-
-  clock = time((long *)0);
-  tp = localtime(&clock);
-  if (days[tp->tm_wday][tp->tm_hour+4] != 'X') {
-    return FALSE;
-  } else {
-    if (!rstat("localhost", &st)) {
-      if (((int) ((double)st.avenrun[2]/(double) FSCALE)) >= (int)LOAD)
-	return FALSE;
-    }
-  }
   return TRUE;
 }
 

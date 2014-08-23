@@ -59,7 +59,7 @@
 #endif */
 
 /* if you are compiling on a SYS V version of UNIX, define this */
-/* #define SYS_V */
+#define SYS_V
 
 /* if you are compiling on a SYS III version of UNIX, define this */
 /* #define SYS_III */

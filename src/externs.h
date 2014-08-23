@@ -6,12 +6,7 @@
    not for profit purposes provided that this copyright and statement are
    included in all such copies. */
 
-/* many systems don't define these anywhere */
-#if defined(USG) || defined(DGUX) || defined(atarist)
-extern int sprintf();
-#else
-extern char *sprintf();
-#endif
+#include <stdio.h>
 
 #ifndef MSDOS
 extern int errno;
@@ -1187,10 +1182,4 @@ void change_character();
 void wizard_create();
 void artifact_check();
 
-#endif
-
-#ifdef unix
-/* call functions which expand tilde before calling open/fopen */
-#define open topen
-#define fopen tfopen
 #endif

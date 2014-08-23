@@ -46,7 +46,6 @@ static char blank_string[] = "                        ";
 
 extern int peek;
 extern int rating;
-char *malloc();
 
 /* Places a particular trap at location y, x		-RAK-	*/
 void place_trap(y, x, subval)
