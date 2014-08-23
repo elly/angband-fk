@@ -45,11 +45,7 @@ static void rd_shorts();
 static void rd_item();
 static void rd_monster();
 
-#ifdef MAC
-#include <time.h>
-#else
 long time();
-#endif
 
 #ifndef SET_UID
 #include <sys/stat.h>
@@ -1417,11 +1413,7 @@ int *generate;
   log_index = -1;
   prt("Please try again without that savefile.", 1, 0);
   signals();
-#ifdef MAC
-  *exit_flag = TRUE;
-#else
   exit_game();
-#endif
 
   return FALSE;	/* not reached, unless on mac */
 }

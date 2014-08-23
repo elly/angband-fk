@@ -145,7 +145,6 @@ void dungeon()
     {
       /* Increment turn counter			*/
       turn++;
-#ifndef MAC
       /* The Mac ignores the game hours file		*/
       /* Check for game hours			       */
       if (((turn % 100) == 1) && !check_time())
@@ -167,7 +166,6 @@ void dungeon()
 	    msg_print("The gates to ANGBAND are closing due to high load.");
 	    msg_print("Please finish up or save your game.");
 	  }
-#endif
 
       /* turn over the store contents every, say, 1000 turns */
       if ((dun_level != 0) && ((turn % 1000) == 0)) {

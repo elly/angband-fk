@@ -45,22 +45,15 @@
 /* if you are compiling on a SYS V version of UNIX, define this */
 #define SYS_V
 
-/* if you are compiling on an ATARI ST with Mark Williams C, define this */
-/* #define ATARIST_MWC */
-
-/* if you are compiling on a Macintosh with MPW C 3.0, define this */
-/* #define MAC */
-
-
 /* system dependent defines follow, you should not need to change anything
    below */
 
 /* substitute strchr for index on USG versions of UNIX */
-#if defined(SYS_V) || defined(MSDOS) || defined(MAC)
+#if defined(SYS_V) || defined(MSDOS)
 #define index strchr
 #endif
 
-#if defined(SYS_V) || defined(MSDOS) || defined(MAC)
+#if defined(SYS_V) || defined(MSDOS)
 #ifndef USG
 #define USG
 #endif
@@ -68,20 +61,6 @@
 
 #ifdef MSDOS
 #define register      /* MSC 4.0 still has a problem with register bugs ... */
-#endif
-
-#ifdef MAC
-#ifdef RSRC
-#define MACRSRC		/* i.e., we're building the resources */
-#else
-#define MACGAME		/* i.e., we're building the game */
-#endif
-#endif
-
-#ifdef MAC
-/* Screen dimensions */
-#define SCRN_ROWS	24
-#define SCRN_COLS	80
 #endif
 
 #if vms

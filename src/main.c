@@ -76,14 +76,12 @@
 long time();
 char *getenv();
 
-#ifndef MAC
 #ifdef USG
 #else
 #ifdef BSD4_3
 uid_t getuid(), getgid();
 #else  /* other BSD versions */
 int getuid(), getgid();
-#endif
 #endif
 #endif
 
@@ -312,12 +310,6 @@ char *argv[];
   /* Init the store inventories			*/
   store_init();
 
-#ifndef MAC
-  /* On Mac, if -n is passed, no savefile is used */
-  /* If -n is not passed, the calling routine will know savefile name,
-     hence, this code is not necessary */
-#endif
-
   (void) sprintf(savefile, "%s/%d%s", ANGBAND_SAV, player_uid, py.misc.name);
 
 
@@ -512,7 +504,6 @@ char *argv[];
     {
       dungeon();				  /* Dungeon logic */
 
-#ifndef MAC
       /* check for eof here, see inkey() in io.c */
       /* eof can occur if the process gets a HANGUP signal */
       if (eof_flag)
@@ -525,7 +516,6 @@ char *argv[];
 	  /* should not reach here, by if we do, this guarantees exit */
 	  death = TRUE;
 	}
-#endif
       good_item_flag = FALSE;
       if (!death) generate_cave();	       /* New level	*/
     }

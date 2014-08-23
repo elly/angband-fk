@@ -9,24 +9,6 @@
 /* This signal package was brought to you by		-JEW-  */
 /* Completely rewritten by				-CJS- */
 
-/* Signals have no significance on the Mac */
-
-#ifdef MAC
-
-void nosignals()
-{
-}
-
-void signals()
-{
-}
-
-void init_signals()
-{
-}
-
-#else /* a non-Mac system */
-
 #include <stdio.h>
 
 /* to get the SYS_V def if needed */
@@ -254,5 +236,3 @@ void restore_signals()
   (void) signal(SIGQUIT, signal_handler);
 #endif
 }
-
-#endif /* big Mac conditional */

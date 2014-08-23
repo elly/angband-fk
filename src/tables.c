@@ -118,7 +118,6 @@ int16u store_choice[MAX_STORES][STORE_CHOICES] = {
  282,277,279,292,164,167,168,153,137,142,326,328,299}
 };
 
-#ifndef MAC
 /* MPW doesn't seem to handle this very well, so replace store_buy array
    with a function call on mac */
 /* functions defined in sets.c */
@@ -132,21 +131,8 @@ int home();
 int (*store_buy[MAX_STORES])() = {
        general_store, armory, weaponsmith, temple, alchemist, magic_shop,
        blackmarket, home};
-#endif
 
 /* Following are arrays for descriptive pieces			*/
-
-#ifdef MACGAME
-
-char **colors;
-char **mushrooms;
-char **woods;
-char **metals;
-char **rocks;
-char **amulets;
-char **syllables;
-
-#else
 
 char *colors[MAX_COLORS] = {
 /* Do not move the first three */
@@ -225,7 +211,6 @@ char *syllables[MAX_SYLLABLES] = {
   "vom","wah","wed","werg","wex","whon","wun","x",
   "yerg","yp","zun","tri","blaa"
 };
-#endif
 
 /* used to calculate the number of blows the player gets in combat */
 int8u blows_table[11][12] = {

@@ -112,23 +112,13 @@ extern int panel_col_min, panel_col_max;
 extern int panel_col_prt, panel_row_prt;
 
 /*  Following are all floor definitions				*/
-#ifdef MAC
-extern cave_type (*cave)[MAX_WIDTH];
-#else
 extern cave_type cave[MAX_HEIGHT][MAX_WIDTH];
-#endif
 
 /* Following are player variables				*/
 extern player_type py;
-#ifdef MACGAME
-extern char *(*player_title)[MAX_PLAYER_LEVEL];
-extern race_type *race;
-extern background_type *background;
-#else
 extern char *player_title[MAX_CLASS][MAX_PLAYER_LEVEL];
 extern race_type race[MAX_RACES];
 extern background_type background[MAX_BACKGROUND];
-#endif
 extern int32u player_exp[MAX_PLAYER_LEVEL];
 extern int16u player_hp[MAX_PLAYER_LEVEL];
 extern int16 char_row;
@@ -141,11 +131,7 @@ extern class_type class[MAX_CLASS];
 extern int16 class_level_adj[MAX_CLASS][MAX_LEV_ADJ];
 
 /* Warriors don't have spells, so there is no entry for them. */
-#ifdef MACGAME
-extern spell_type (*magic_spell)[63];
-#else
 extern spell_type magic_spell[MAX_CLASS-1][63];
-#endif
 extern char *spell_names[127];
 extern int32u spell_learned;	/* Bit field for spells learnt -CJS- */
 extern int32u spell_learned2;	/* Bit field for spells learnt -CJS- */
@@ -158,27 +144,13 @@ extern int16u player_init[MAX_CLASS][5];
 extern int16 total_winner;
 
 /* Following are store definitions				*/
-#ifdef MACGAME
-extern owner_type *owners;
-#else
 extern owner_type owners[MAX_OWNERS];
-#endif
-#ifdef MAC
-extern store_type *store;
-#else
 extern store_type store[MAX_STORES];
-#endif
 extern int16u store_choice[MAX_STORES][STORE_CHOICES];
-#ifndef MAC
 extern int (*store_buy[MAX_STORES])();
-#endif
 
 /* Following are treasure arrays	and variables			*/
-#ifdef MACGAME
-extern treasure_type *object_list;
-#else
 extern treasure_type object_list[MAX_OBJECTS];
-#endif
 extern int8u object_ident[OBJECT_IDENT_SIZE];
 extern int16 t_level[MAX_OBJ_LEVEL+1];
 extern inven_type t_list[MAX_TALLOC];
@@ -191,34 +163,17 @@ extern int16 equip_ctr;	/* Cur equipment ctr	*/
 extern int16 tcptr;	/* Cur treasure heap ptr	*/
 
 /* Following are creature arrays and variables			*/
-#ifdef MACGAME
-extern creature_type *c_list;
-#else
 extern creature_type c_list[MAX_CREATURES];
-#endif
 extern describe_mon_type desc_list[MAX_CREATURES];
 extern monster_type m_list[MAX_MALLOC];
 extern int16 m_level[MAX_MONS_LEVEL+1];
 extern m_attack_type monster_attacks[N_MONS_ATTS];
-#ifdef MAC
-extern recall_type *c_recall;
-#else
 extern recall_type c_recall[MAX_CREATURES];	/* Monster memories. -CJS- */
-#endif
 extern monster_type blank_monster;	/* Blank monster values	*/
 extern int16 mfptr;	/* Cur free monster ptr	*/
 extern int16 mon_tot_mult;	/* # of repro's of creature	*/
 
 /* Following are arrays for descriptive pieces			*/
-#ifdef MACGAME
-extern char **colors;
-extern char **mushrooms;
-extern char **woods;
-extern char **metals;
-extern char **rocks;
-extern char **amulets;
-extern char **syllables;
-#else
 extern char *colors[MAX_COLORS];
 extern char *mushrooms[MAX_MUSH];
 extern char *woods[MAX_WOODS];
@@ -226,7 +181,6 @@ extern char *metals[MAX_METALS];
 extern char *rocks[MAX_ROCKS];
 extern char *amulets[MAX_AMULETS];
 extern char *syllables[MAX_SYLLABLES];
-#endif
 
 extern int8u blows_table[11][12];
 
@@ -300,11 +254,7 @@ void eat(void);
 void read_times(void);
 void helpfile(char *);
 void print_objects(void);
-#ifdef MAC
-int file_character(void)
-#else
 int file_character(char *);
-#endif
 
 
 /* generate.c */
@@ -564,11 +514,7 @@ void set_rnd_seed(int32u);
 int32 rnd(void);
 
 /* save.c */
-#ifdef MAC
-int save_char(int);
-#else
 int save_char(void);
-#endif
 int _save_char(char *);
 int get_char(int *);
 
@@ -593,9 +539,6 @@ int weaponsmith(int);
 int temple(int);
 int alchemist(int);
 int magic_shop(int);
-#ifdef MAC
-int store_buy(int, int);
-#endif
 
 /* signals.c */
 void nosignals(void);
@@ -1052,9 +995,6 @@ int weaponsmith();
 int temple();
 int alchemist();
 int magic_shop();
-#ifdef MAC
-int store_buy();
-#endif
 
 /* signals.c */
 void nosignals();

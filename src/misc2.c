@@ -1505,22 +1505,12 @@ void get_name()
   strcpy(tmp, py.misc.name);
   prt("Enter your player's name  [press <RETURN> when finished]", 21, 2);
   put_buffer (&blank_string[BLANK_LENGTH-23], 2, 15);
-#ifdef MAC
-  /* Force player to give a name, would be nice to get name from chooser
-     (STR -16096), but that name might be too long */
-  while (!get_string(py.misc.name, 2, 15, 23) || py.misc.name[0] == 0);
-#else
   if (!get_string(py.misc.name, 2, 15, 23) || py.misc.name[0] == 0)
     {
       strcpy(py.misc.name, tmp);
       put_buffer (tmp, 2, 15);
     }
-#endif
   clear_from (20);
-#ifdef MAC
-  /* Use the new name to set save file default name. */
-  initsavedefaults();
-#endif
 }
 
 
@@ -1529,9 +1519,7 @@ void change_name()
 {
   register char c;
   register int flag;
-#ifndef MAC
   vtype temp;
-#endif
 
   flag = FALSE;
   display_char();
@@ -1546,16 +1534,10 @@ void change_name()
 	  flag = TRUE;
 	  break;
 	case 'f':
-#ifdef MAC
-	  /* On mac, file_character() gets filename with std file dialog. */
-	  if (file_character ())
-	    flag = TRUE;
-#else
 	  prt ("File name:", 0, 0);
 	  if (get_string (temp, 0, 10, 60) && temp[0])
 	    if (file_character (temp))
 	      flag = TRUE;
-#endif
 	  break;
 	case ESCAPE: case ' ':
 	case '\n': case '\r':

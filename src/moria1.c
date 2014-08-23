@@ -1505,11 +1505,7 @@ int *dir;
   for (;;)
     {
       save = command_count;	/* Don't end a counted command. -CJS- */
-#ifdef MAC
-      if (!get_comdir(prompt, &command))
-#else
       if (!get_com(prompt, &command))
-#endif
 	{
 	  free_turn_flag = TRUE;
 	  return FALSE;
@@ -1539,11 +1535,7 @@ int *dir;
 
   for(;;)
     {
-#ifdef MAC
-      if (!get_comdir(prompt, &command))
-#else
       if (!get_com(prompt, &command))
-#endif
 	{
 	  free_turn_flag = TRUE;
 	  return FALSE;

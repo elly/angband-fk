@@ -33,12 +33,10 @@
 #ifdef MSDOS
 #include <io.h>
 #else
-#if !defined(MAC)
 #ifndef VMS
 #include <pwd.h>
 #else
 #include <file.h>
-#endif
 #endif
 #endif
 
@@ -66,18 +64,14 @@ off_t lseek();
 #endif
 
 #ifndef VMS
-#ifndef MAC
 #if defined(USG)
 void perror();
 void exit ();
 #endif
 #endif
-#endif
 
-#ifndef MAC
 #ifdef SYS_V
 struct passwd *getpwuid();
-#endif
 #endif
 
 #if defined(LINT_ARGS)
@@ -87,10 +81,8 @@ static void print_tomb(void);
 static void kingly(void);
 #endif
 
-#ifndef MAC
 char *getlogin();
 long time();
-#endif
 
 static void date(day)
 char *day;
@@ -501,11 +493,6 @@ static void kingly()
 void exit_game ()
 {
   register int i;
-
-#ifdef MAC
-  /* Prevent strange things from happening */
-  enablefilemenu(FALSE);
-#endif
 
   /* What happens upon dying.				-RAK-	 */
   msg_print(NULL);

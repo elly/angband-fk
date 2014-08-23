@@ -87,12 +87,7 @@ static void blank_cave()
 #ifndef USG
   bzero ((char *)&cave[0][0], sizeof (cave));
 #else
-#ifdef MAC
-  /* On the mac, cave is a pointer, so sizeof(cave) = 4! */
-  (void)memset((char *)&cave[0][0], 0, sizeof(cave_type)*MAX_HEIGHT*MAX_WIDTH);
-#else
   (void)memset((char *)&cave[0][0], 0, sizeof (cave));
-#endif
 #endif
 }
 

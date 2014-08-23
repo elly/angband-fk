@@ -20,9 +20,6 @@ int16 char_col;
 int16u player_hp[MAX_PLAYER_LEVEL];
 
 /* Class titles for different levels				*/
-#ifdef MACGAME
-char *(*player_title)[MAX_PLAYER_LEVEL];
-#else
 char *player_title[MAX_CLASS][MAX_PLAYER_LEVEL] = {
 	/* Warrior	 */
 {"Rookie","Private","Soldier","Mercenary","Veteran(1st)","Veteran(2nd)",
@@ -91,7 +88,6 @@ char *player_title[MAX_CLASS][MAX_PLAYER_LEVEL] = {
 "Warder (15th)","Warder (16th)","Warder (17th)","Warder (18th)",
 "Warder (19th)","Guardian","Chevalier","Justiciar","Paladin","High Lord"}
 };
-#endif
 
 /* Base experience levels, may be adjusted up for race and/or class*/
 int32u player_exp[MAX_PLAYER_LEVEL] = {
@@ -108,9 +104,6 @@ int32u player_exp[MAX_PLAYER_LEVEL] = {
 	Ages, heights, and weights (male then female)
 	Racial Bases for: dis,srh,stl,fos,bth,bthb,bsav,hitdie,
 	infra, exp base, choice-classes */
-#ifdef MACGAME
-race_type *race;
-#else
 race_type race[MAX_RACES] = {
    {"Human",	 0,  0,	 0,  0,	 0,  0,
       14,  6, 72,  6,180, 25, 66,  4,150, 20,
@@ -153,7 +146,6 @@ race_type race[MAX_RACES] = {
       4,   3,  3, -4, 15, 25, 20, 10,  4, 180, 0x1F,
     }
  };
-#endif
 
 /* 5 char race for printing scores. */
 char *dsp_race[MAX_RACES] = {
@@ -170,9 +162,6 @@ char *dsp_race[MAX_RACES] = {
 };
 
 /* Background information					*/
-#ifdef MACGAME
-background_type *background;
-#else
 background_type background[MAX_BACKGROUND] = {
 {"You are the illegitimate and unacknowledged child ",		 10, 1, 2, 25},
 {"You are the illegitimate but acknowledged child ",		 20, 1, 2, 35},
@@ -303,7 +292,6 @@ background_type background[MAX_BACKGROUND] = {
 {"scabby skin.",						 66,66, 0, 50},
 {"leprous skin.",						100,66, 0, 50}
 };
-#endif
 
 /* Classes.							*/
 class_type class[MAX_CLASS] = {
@@ -341,9 +329,6 @@ int8u spell_order[64];		/* order spells learned/remembered/forgotten */
 /* Warriors don't have spells, so there is no entry for them.  Note that
    this means you must always subtract one from the py.misc.pclass before
    indexing into magic_spell[]. */
-#ifdef MACGAME
-spell_type (*magic_spell)[63];
-#else
 spell_type magic_spell[MAX_CLASS-1][63] = {
   {		  /* Mage	   */
 /* Beginners Magic */
@@ -708,7 +693,6 @@ spell_type magic_spell[MAX_CLASS-1][63] = {
      { 99, 99,  0,   0}
    }
  };
-#endif
 
 char *spell_names[127] = {
   /* Mage Spells */

@@ -12,7 +12,7 @@
 #else
 #include <time.h>
 #endif
-#if !defined(GEMDOS) && !defined(MAC)
+#if !defined(GEMDOS)
 #ifndef VMS
 #include <sys/types.h>
 #else
@@ -57,9 +57,7 @@ static void compact_monsters(void);
 static void compact_objects(void);
 #endif
 
-#if !defined(MAC)
 long time();
-#endif
 struct tm *localtime();
 extern int peek;
 extern int rating;
