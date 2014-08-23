@@ -31,7 +31,6 @@
 #define ANGBAND_WIZ       LIBDIR"/files/wizards"
 #define ANGBAND_SAV       LIBDIR"/save"
 
-/*#define ANNOY 142*/
 /* #define SET_UID */
 
 /* this sets the default user interface */

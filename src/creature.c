@@ -1819,7 +1819,7 @@ static void mon_cast_spell(monptr, took_turn)
 	  (void) sprintf(outval,"%sconcentrates on its wounds.",cdesc);
 	  msg_print(outval);
             if (m_ptr->maxhp == 0){ /* then we're just going to fix it! -CFT */
-            if ((c_list[m_ptr->mptr].cdefense & MAX_HP) || be_nasty)
+            if (c_list[m_ptr->mptr].cdefense & MAX_HP)
               m_ptr->maxhp = max_hp(c_list[m_ptr->mptr].hd);
             else
               m_ptr->maxhp = pdamroll(c_list[m_ptr->mptr].hd);

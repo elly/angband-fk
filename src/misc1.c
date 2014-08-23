@@ -740,7 +740,7 @@ int slp;
       msg_print("FOUL UP IN PLACE_MONSTER");
       *wibble=3;
   }
-  if ((c_list[z].cdefense & MAX_HP) || be_nasty)
+  if (c_list[z].cdefense & MAX_HP)
     mon_ptr->hp = max_hp(c_list[z].hd);
   else
     mon_ptr->hp = pdamroll(c_list[z].hd);
@@ -2297,7 +2297,6 @@ inven_type *t_ptr;
 {
   char *name;
 
-  if (be_nasty) return 0;
   name = object_list[t_ptr->index].name;
   if (!strcmp("& Longsword", name)) {
     switch (randint(15)) {
@@ -3216,7 +3215,6 @@ inven_type *t_ptr;
 {
   char *name;
 
-  if (be_nasty) return 0;
   name = object_list[t_ptr->index].name;
   if (!strncmp("Adamantite", name, 10)) {
     if (SOULKEEPER) return 0;

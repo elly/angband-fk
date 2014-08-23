@@ -77,7 +77,6 @@ static void price_adjust();
 
 int peek=FALSE;
 int player_uid;
-int be_nasty=FALSE;
 int quests[MAX_QUESTS];
 creature_type ghost;
 
@@ -153,13 +152,6 @@ char *argv[];
     exit(0);
   }
 #endif
-
-#ifdef ANNOY
-  if (player_uid == ANNOY)
-    be_nasty=TRUE;
-  else
-#endif
-    be_nasty=FALSE;
 
   (void)gethostname(thishost, sizeof thishost);	/* get host */
   if ((fp=fopen(ANGBAND_LOAD, "r")) == NULL) {
