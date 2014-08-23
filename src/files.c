@@ -45,63 +45,6 @@ void read_times()
   register int i;
   vtype in_line;
   FILE *file1;
-
-#ifdef ANGBAND_HOU
-  /* Attempt to read hours.dat.	 If it does not exist,	   */
-  /* inform the user so he can tell the wizard about it	 */
-  if ((file1 = fopen(ANGBAND_HOU, "r")) != NULL)
-    {
-      while (fgets(in_line, 80, file1) != NULL)
-	if (strlen(in_line) > 3)
-	  {
-	    if (!strncmp(in_line, "SUN:", 4))
-	      (void) strcpy(days[0], in_line);
-	    else if (!strncmp(in_line, "MON:", 4))
-	      (void) strcpy(days[1], in_line);
-	    else if (!strncmp(in_line, "TUE:", 4))
-	      (void) strcpy(days[2], in_line);
-	    else if (!strncmp(in_line, "WED:", 4))
-	      (void) strcpy(days[3], in_line);
-	    else if (!strncmp(in_line, "THU:", 4))
-	      (void) strcpy(days[4], in_line);
-	    else if (!strncmp(in_line, "FRI:", 4))
-	      (void) strcpy(days[5], in_line);
-	    else if (!strncmp(in_line, "SAT:", 4))
-	      (void) strcpy(days[6], in_line);
-	  }
-      (void) fclose(file1);
-    }
-  else
-    {
-      restore_term();
-      (void) fprintf(stderr, "There is no hours file \"%s\".\nPlease inform the wizard, %s, so he can correct this!\n", ANGBAND_HOU, WIZARD);
-      exit(1);
-    }
-
-  /* Check the hours, if closed	then exit. */
-  if (!check_time())
-    {
-      if ((file1 = fopen(ANGBAND_HOU, "r")) != NULL)
-	{
-	  clear_screen();
-	  for (i = 0; fgets(in_line, 80, file1) != NULL; i++)
-	    put_buffer(in_line, i, 0);
-	  (void) fclose(file1);
-	  pause_line(23);
-	}
-      exit_game();
-    }
-
-  /* Print the introduction message, news, etc.		 */
-  if ((file1 = fopen(ANGBAND_MOR, "r")) != NULL)
-    {
-      clear_screen();
-      for (i = 0; fgets(in_line, 80, file1) != NULL; i++)
-	put_buffer(in_line, i, 0);
-      pause_line(23);
-      (void) fclose(file1);
-    }
-#endif
 }
 
 /* File perusal.	    -CJS-

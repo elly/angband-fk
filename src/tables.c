@@ -10,18 +10,6 @@
 #include "config.h"
 #include "types.h"
 
-#ifdef ANGBAND_HOU
-/* Operating hours for ANGBAND				-RAK-	*/
-/*	 X = Open; . = Closed					*/
-char  days[7][29] = { "SUN:XXXXXXXXXXXXXXXXXXXXXXXX",
-		    "MON:XXXXXXXX.........XXXXXXX",
-		    "TUE:XXXXXXXX.........XXXXXXX",
-		    "WED:XXXXXXXX.........XXXXXXX",
-		    "THU:XXXXXXXX.........XXXXXXX",
-		    "FRI:XXXXXXXX.........XXXXXXX",
-		    "SAT:XXXXXXXXXXXXXXXXXXXXXXXX" };
-#endif
-
 store_type store[MAX_STORES];
 
 /* Store owners have different characteristics for pricing and haggling*/
