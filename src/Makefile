@@ -12,7 +12,7 @@ BINDIR = $(THISDIR)/bin
 
 # We need -Wno-overflow because the table in src/monsters.c uses too-large
 # values for many fields, but changing them will break savefile compat
-CFLAGS = -g -Wno-overflow -Werror -DLIBDIR=\"$(LIBDIR)\" 
+CFLAGS = -g -Wno-overflow -Werror -DLIBDIR=\"$(LIBDIR)\" -DLINT_ARGS
 CC = gcc
 
 SOURCES = main.c misc1.c misc2.c store1.c files.c io.c create.c desc.c\

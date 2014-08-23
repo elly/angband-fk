@@ -216,21 +216,21 @@ void exit_game(void);
 /* desc.c */
 int is_a_vowel(char);
 void magic_init(void);
-void known1(char *);
+void known1(inven_type *);
 int known1_p(inven_type *);
-void known2(char *);
-int known2_p*(inven_type *);
+void known2(inven_type *);
+int known2_p(inven_type *);
 void clear_known2(inven_type *);
 void clear_empty(inven_type *);
 void store_bought(inven_type *);
 int store_bought_p(inven_type *);
 void sample(struct inven_type *);
 void identify(int *);
-void unmagic_name(char *);
+void unmagic_name(inven_type *);
 void objdes(char *, struct inven_type *, int);
 void scribe_object(void);
-void add_inscribe(char *, char *);
-void inscribe(char *, char *);
+void add_inscribe(inven_type *, int8u);
+void inscribe(inven_type *, char *);
 void invcopy(inven_type *, int);
 void desc_charges(int);
 void desc_remain(int);
@@ -256,7 +256,7 @@ void ident_char(void);
 
 /* io.c */
 #ifdef SIGTSTP
-int suspend(void);
+void suspend(int sig);
 #endif
 void init_curses(void);
 void moriaterm(void);
@@ -307,14 +307,14 @@ int distance(int, int, int, int);
 int next_to_wall(int, int);
 int next_to_corr(int, int);
 int damroll(int, int);
-int pdamroll(char *);
+int pdamroll(int8u* array);
 int los(int, int, int, int);
 unsigned char loc_symbol(int, int);
 int test_light(int, int);
 void prt_map(void);
 void add_food(int);
 int popm(void);
-int max_hp(char *);
+int max_hp(int8u *array);
 void place_monster(int, int, int, int);
 void place_win_monster(void);
 int get_mons_num(int);
@@ -325,14 +325,14 @@ int popt(void);
 void pusht(int8u);
 int magik(int);
 int m_bonus(int, int, int);
-void magic_treasure(int, int);
+void magic_treasure(int, int, int, int);
 void set_options(void);
 
 /* misc2.c */
 void place_trap(int, int, int);
 void place_rubble(int, int);
 void place_gold(int, int);
-int get_obj_num(int);
+int get_obj_num(int, int);
 void place_object(int, int);
 void alloc_object(int (*)(), int, int);
 void random_object(int, int, int);
@@ -386,7 +386,7 @@ void take_one_item(struct inven_type *, struct inven_type *);
 void inven_drop(int, int);
 int inven_damage(int (*)(), int);
 int weight_limit(void);
-int inven_check_num(void);
+int inven_check_num(inven_type *);
 int inven_check_weight(struct inven_type *);
 void check_strength(void);
 int inven_carry(struct inven_type *);
@@ -416,13 +416,13 @@ void check_view(void);
 void change_speed(int);
 void py_bonuses(struct inven_type *, int);
 void calc_bonuses(void);
-int show_inven(int, int, int, int);
+int show_inven(int, int, int, int, int (*)());
 char *describe_use(int);
 int show_equip(int, int);
 void takeoff(int, int);
 int verify(char *, int);
 void inven_command(char);
-int get_item(int *, char *, int, int);
+int get_item(int *, char *, int, int, int (*)());
 int no_light(void);
 int get_dir(char *, int *);
 int get_alldir(char *, int *);
@@ -439,7 +439,7 @@ int test_hit(int, int, int, int, int);
 void take_hit(int, char *);
 void change_trap(int, int);
 void search(int, int, int);
-void find_init(void);
+void find_init(int dir);
 void find_run(void);
 void end_find(void);
 void area_affect(int, int, int);
@@ -457,7 +457,7 @@ void delete_monster(int);
 void fix1_delete_monster(int);
 void fix2_delete_monster(int);
 int delete_object(int, int);
-int32u monster_death(int, int, int32u);
+int32u monster_death(int y, int x, int32u flags, int32u good, int32u win);
 int mon_take_hit(int, int);
 void move_char(int, int);
 void openobject(void);
@@ -546,7 +546,7 @@ void fire_ball(int, int, int, int, int, char *);
 void breath(int, int, int, int, char *, int);
 int recharge(int);
 int hp_monster(int, int, int, int);
-int drain_life(int, int, int);
+int drain_life(int, int, int, int);
 int speed_monster(int, int, int, int);
 int confuse_monster(int, int, int);
 int sleep_monster(int, int, int);
@@ -558,8 +558,8 @@ int clone_monster(int, int, int);
 void teleport_away(int, int);
 void teleport_to(int, int);
 int teleport_monster(int, int, int);
-int mass_genocide(void);
-int genocide(void);
+int mass_genocide(int spell);
+int genocide(int spell);
 int speed_monsters(int);
 int sleep_monsters2(void);
 int mass_poly(void);
@@ -596,7 +596,7 @@ void use(void);
 /* store1.c */
 int32 item_value(struct inven_type *);
 int32 sell_price(int, int32 *, int32 *, struct inven_type *);
-int store_check_num(int);
+int store_check_num(inven_type *, int);
 void store_carry(int, int *, struct inven_type *);
 void store_destroy(int, int, int);
 void store_init(void);
@@ -614,10 +614,7 @@ void enter_store(int);
 #ifdef unix
 /* unix.c */
 int check_input(int);
-#if 0
-int system_cmd(char *);
-#endif
-void user_name(char *);
+void user_name(char *, int);
 int tilde(char *, char *);
 FILE *tfopen(char *, char *);
 int topen(char *, int, int);
@@ -629,7 +626,7 @@ int topen(char *, int, int);
 void aim(void);
 
 /* wizard.c */
-void wizard_light(void);
+void wizard_light(int light);
 void change_character(void);
 void wizard_create(void);
 void artifact_check(void);
@@ -1050,9 +1047,6 @@ void enter_store();
 #ifdef unix
 /* unix.c */
 int check_input();
-#if 0
-int system_cmd();
-#endif
 void user_name();
 int tilde();
 /* only declare this if stdio.h has been previously included, which will

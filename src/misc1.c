@@ -39,7 +39,7 @@ typedef struct statstime {
 } statstime;
 
 #if defined(LINT_ARGS)
-static void compact_monsters(void);
+static int compact_monsters(void);
 static void compact_objects(void);
 #endif
 
@@ -114,14 +114,6 @@ int randnor(mean, stand)
 int mean, stand;
 {
   register int tmp, offset, low, iindex, high;
-
-#if 0
-  /* alternate randnor code, slower but much smaller since no table */
-  /* 2 per 1,000,000 will be > 4*SD, max is 5*SD */
-  tmp = damroll(8, 99);	 /* mean 400, SD 81 */
-  tmp = (tmp - 400) * stand / 81;
-  return tmp + mean;
-#endif
 
   tmp = randint(MAX_SHORT);
 
@@ -611,7 +603,7 @@ void prt_map()
 /* Compact monsters					-RAK-	*/
 /* Return TRUE if any monsters were deleted, FALSE if could not delete any
    monsters. */
-static int compact_monsters()
+static int compact_monsters(void)
 {
   register int i;
   int cur_dis, delete_any;

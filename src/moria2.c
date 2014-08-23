@@ -20,8 +20,8 @@
 static int look_ray(int, int, int);
 static int look_see(int, int, int *);
 static void hit_trap(int, int);
-static void carry(int, int, int);
-static int summon_object(int, int, int, int);
+void carry(int, int, int);
+static int summon_object(int, int, int, int, int32u);
 static void py_attack(int, int);
 static void chest_trap(int, int);
 static void inven_throw(int, struct inven_type *);
