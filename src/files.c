@@ -25,17 +25,11 @@ char *strcat();
 #include <fcntl.h>
 #else
 #include <strings.h>
-#ifndef VMS
 #include <sys/file.h>
-#else
-#include <file.h>
-#endif
 #endif
 
-#ifndef VMS
 #if defined(USG)
 void exit();
-#endif
 #endif
 
 /* Not touched for Mac port */

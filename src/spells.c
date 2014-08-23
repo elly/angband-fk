@@ -15,9 +15,7 @@
 #ifdef USG
 #include <string.h>
 #else
-#ifndef VMS
 #include <strings.h>
-#endif
 #endif
 
 #if defined(LINT_ARGS)

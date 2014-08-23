@@ -30,11 +30,7 @@
 #include <sys/file.h>
 #endif
 
-#ifndef VMS
 #include <pwd.h>
-#else
-#include <file.h>
-#endif
 
 #ifdef USG
 #include <string.h>
@@ -53,17 +49,15 @@ long lseek();
 off_t lseek();
 #endif
 
-#if defined(USG) || defined(VMS)
+#if defined(USG)
 #ifndef L_SET
 #define L_SET 0
 #endif
 #endif
 
-#ifndef VMS
 #if defined(USG)
 void perror();
 void exit ();
-#endif
 #endif
 
 #ifdef SYS_V

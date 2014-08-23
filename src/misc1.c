@@ -13,11 +13,7 @@
 #include <time.h>
 #endif
 #if !defined(GEMDOS)
-#ifndef VMS
 #include <sys/types.h>
-#else
-#include <types.h>
-#endif
 #endif
 
 #include <stdio.h>

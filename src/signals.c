@@ -37,9 +37,7 @@ typedef struct { int stuff; } fpvmach;
 #ifdef USG
 #include <string.h>
 #else
-#ifndef VMS
 #include <strings.h>
-#endif
 #endif
 
 #ifdef USG

@@ -59,14 +59,6 @@
 #endif
 #endif
 
-#if vms
-#define getch _getch
-#define unlink delete
-#define index strchr
-#define lstat stat
-#define exit uexit
-#endif
-
 #if defined(SYS_V) && defined(lint)
 /* to prevent <string.h> from including <NLchar.h>, this prevents a bunch
    of lint errors. */

@@ -36,9 +36,7 @@ char *getenv();
 typedef struct { int stuff; } fpvmach;
 #endif
 
-#ifndef VMS
 #include <sys/ioctl.h>
-#endif
 #include <signal.h>
 
 #ifndef USG
@@ -52,13 +50,11 @@ typedef struct { int stuff; } fpvmach;
 #include <string.h>
 #include <termio.h>
 #else
-#ifndef VMS
 #include <strings.h>
 #if defined(atarist) && defined(__GNUC__)
 /* doesn't have sys/wait.h */
 #else
 #include <sys/wait.h>
-#endif
 #endif
 #endif
 
@@ -119,12 +115,10 @@ unsigned sleep();
 #ifdef USG
 static struct termio save_termio;
 #else
-#ifndef VMS
 static struct ltchars save_special_chars;
 static struct sgttyb save_ttyb;
 static struct tchars save_tchars;
 static int save_local_chars;
-#endif
 #endif
 
 static int curses_on = FALSE;
@@ -178,9 +172,7 @@ void init_curses()
   (void) ioctl(0, TIOCGETC, (char *)&save_tchars);
   (void) ioctl(0, TIOCLGET, (char *)&save_local_chars);
 #else
-#if !defined(VMS)
   (void) ioctl(0, TCGETA, (char *)&save_termio);
-#endif
 #endif
 
 #if defined(USG) && !defined(PC_CURSES)	/* PC curses returns ERR */
@@ -258,7 +250,6 @@ void moriaterm()
 
   (void) ioctl(0, TCSETA, (char *)&tbuf);
 #else
-#ifndef VMS
   /* disable all of the special characters except the suspend char, interrupt
      char, and the control flow start/stop characters */
   (void) ioctl(0, TIOCGLTC, (char *)&lbuf);
@@ -278,7 +269,6 @@ void moriaterm()
   buf.t_eofc = (char)-1;
   buf.t_brkc = (char)-1;
   (void) ioctl(0, TIOCSETC, (char *)&buf);
-#endif
 #endif
 }
 
@@ -325,26 +315,18 @@ void restore_term()
   if (!curses_on)
     return;
   put_qio();  /* Dump any remaining buffer */
-#ifdef VMS
-  pause_line(15);
-#endif
   /* this moves curses to bottom right corner */
   mvcur(curscr->_cury, curscr->_curx, LINES-1, 0);
-#ifdef VMS
-  pause_line(15);
-#endif
   endwin();  /* exit curses */
   (void) fflush (stdout);
   /* restore the saved values of the special chars */
 #ifdef USG
   (void) ioctl(0, TCSETA, (char *)&save_termio);
 #else
-#ifndef VMS
   (void) ioctl(0, TIOCSLTC, (char *)&save_special_chars);
   (void) ioctl(0, TIOCSETP, (char *)&save_ttyb);
   (void) ioctl(0, TIOCSETC, (char *)&save_tchars);
   (void) ioctl(0, TIOCLSET, (char *)&save_local_chars);
-#endif
 #endif
   curses_on = FALSE;
 }
@@ -372,12 +354,10 @@ void shell_out()
 #ifdef USG
   (void) ioctl(0, TCGETA, (char *)&tbuf);
 #else
-#ifndef VMS
   (void) ioctl(0, TIOCGETP, (char *)&tbuf);
   (void) ioctl(0, TIOCGETC, (char *)&cbuf);
   (void) ioctl(0, TIOCGLTC, (char *)&lcbuf);
   (void) ioctl(0, TIOCLGET, (char *)&lbuf);
-#endif
 #endif
   /* would call nl() here if could use nl()/nonl(), see moriaterm() */
 #ifndef BSD4_3
@@ -394,12 +374,10 @@ void shell_out()
 #ifdef USG
       (void) ioctl(0, TCSETA, (char *)&save_termio);
 #else
-#ifndef VMS
       (void) ioctl(0, TIOCSLTC, (char *)&save_special_chars);
       (void) ioctl(0, TIOCSETP, (char *)&save_ttyb);
       (void) ioctl(0, TIOCSETC, (char *)&save_tchars);
       (void) ioctl(0, TIOCLSET, (char *)&save_local_chars);
-#endif
 #endif
       if (str = getenv("SHELL"))
 	(void) execl(str, str, (char *) 0);
@@ -433,12 +411,10 @@ void shell_out()
 #ifdef USG
   (void) ioctl(0, TCSETA, (char *)&tbuf);
 #else
-#ifndef VMS
   (void) ioctl(0, TIOCSLTC, (char *)&lcbuf);
   (void) ioctl(0, TIOCSETP, (char *)&tbuf);
   (void) ioctl(0, TIOCSETC, (char *)&cbuf);
   (void) ioctl(0, TIOCLSET, (char *)&lbuf);
-#endif
 #endif
   (void) wrefresh(curscr);
 }
