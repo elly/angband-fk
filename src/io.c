@@ -336,10 +336,6 @@ void moriaterm()
   tbuf.c_cc[VKILL] = (char)-1;
   tbuf.c_cc[VEOF] = (char)-1;
 
-  /* don't know what these are for */
-  tbuf.c_cc[VEOL] = (char)-1;
-  tbuf.c_cc[VEOL2] = (char)-1;
-
   /* stuff needed when !icanon, i.e. cbreak/raw mode */
   tbuf.c_cc[VMIN] = 1;  /* Input should wait for at least 1 char */
   tbuf.c_cc[VTIME] = 0; /* no matter how long that takes. */
