@@ -23,7 +23,6 @@
 #include <curses.h>
 #endif
 #else
-#define ATARIST_MWC
 #include "curses.h"
 long wgetch();
 #include <osbind.h>
@@ -51,7 +50,7 @@ typedef struct { int stuff; } fpvmach;
 #include "ms_ansi.h"
 #endif
 #else /* not msdos */
-#if !defined(ATARIST_MWC) && !defined(MAC)
+#if !defined(MAC)
 #ifndef VMS
 #include <sys/ioctl.h>
 #endif
@@ -67,12 +66,8 @@ typedef struct { int stuff; } fpvmach;
 #endif
 
 #ifdef USG
-#ifndef ATARIST_MWC
 #include <string.h>
-#else
-#include "string.h"
-#endif
-#if !defined(MAC) && !defined(MSDOS) && !defined(ATARIST_MWC)
+#if !defined(MAC) && !defined(MSDOS)
 #include <termio.h>
 #endif
 #else
@@ -145,7 +140,7 @@ unsigned sleep();
 #endif
 #endif
 
-#if !defined(MAC) && !defined(MSDOS) && !defined(ATARIST_MWC)
+#if !defined(MAC) && !defined(MSDOS)
 #ifdef USG
 static struct termio save_termio;
 #else
@@ -232,21 +227,15 @@ void init_curses()
   (void) ioctl(0, TIOCGETC, (char *)&save_tchars);
   (void) ioctl(0, TIOCLGET, (char *)&save_local_chars);
 #else
-#if !defined(VMS) && !defined(MSDOS) && !defined(ATARIST_MWC)
+#if !defined(VMS) && !defined(MSDOS)
   (void) ioctl(0, TCGETA, (char *)&save_termio);
 #endif
 #endif
 
-#ifdef ATARIST_MWC
-  WINDOW *newwin();
-  initscr();
-  if (ERR)
-#else
 #if defined(USG) && !defined(PC_CURSES)	/* PC curses returns ERR */
   if (initscr() == NULL)
 #else
   if (initscr() == ERR)
-#endif
 #endif
     {
       (void) printf("Error allocating screen in curses package.\n");
@@ -270,18 +259,10 @@ void init_curses()
   moriaterm ();
 
   /* check tab settings, exit with error if they are not 8 spaces apart */
-#ifdef ATARIST_MWC
-  move(0, 0);
-#else
   (void) move(0, 0);
-#endif
   for (i = 1; i < 10; i++)
     {
-#ifdef ATARIST_MWC
-      addch('\t');
-#else
       (void) addch('\t');
-#endif
       getyx(stdscr, y, x);
       if (y != 0 || x != i*8)
 	break;
@@ -302,7 +283,7 @@ void moriaterm()
 }
 #else
 {
-#if !defined(MSDOS) && !defined(ATARIST_MWC)
+#if !defined(MSDOS)
 #ifdef USG
   struct termio tbuf;
 #else
@@ -322,7 +303,6 @@ void moriaterm()
 #ifdef MSDOS
   msdos_raw();
 #else
-#if !defined(ATARIST_MWC)
 #ifdef USG
   (void) ioctl(0, TCGETA, (char *)&tbuf);
   /* disable all of the normal special control characters */
@@ -361,7 +341,6 @@ void moriaterm()
 #endif
 #endif
 #endif
-#endif
 }
 #endif
 
@@ -387,12 +366,7 @@ int row, col;
   (void) strncpy (tmp_str, out_str, 79 - col);
   tmp_str [79 - col] = '\0';
 
-#ifndef ATARIST_MWC
   if (mvaddstr(row, col, tmp_str) == ERR)
-#else
-  mvaddstr(row, col, out_str);
-  if (ERR)
-#endif
     {
       abort();
       /* clear msg_flag to avoid problems with unflushed messages */
@@ -445,7 +419,7 @@ void restore_term()
 #endif
   /* restore the saved values of the special chars */
 #ifdef USG
-#if !defined(MSDOS) && !defined(ATARIST_MWC)
+#if !defined(MSDOS)
   (void) ioctl(0, TCSETA, (char *)&save_termio);
 #endif
 #else
@@ -469,7 +443,7 @@ void shell_out()
 #else
 {
 #ifdef USG
-#if !defined(MSDOS) && !defined(ATARIST_MWC)
+#if !defined(MSDOS)
   struct termio tbuf;
 #endif
 #else
@@ -481,28 +455,18 @@ void shell_out()
 #ifdef MSDOS
   char	*comspec, key;
 #else
-#ifdef ATARIST_MWC
-  char comstr[80];
-  char *str;
-  extern char **environ;
-#else
   int val;
   char *str;
-#endif
 #endif
 
   save_screen();
   /* clear screen and print 'exit' message */
   clear_screen();
-#ifndef ATARIST_MWC
   put_buffer("[Entering shell, type 'exit' to resume your game.]\n",0,0);
-#else
-  put_buffer("[Escaping to shell]\n",0,0);
-#endif
   put_qio();
 
 #ifdef USG
-#if !defined(MSDOS) && !defined(ATARIST_MWC)
+#if !defined(MSDOS)
   (void) ioctl(0, TCGETA, (char *)&tbuf);
 #endif
 #else
@@ -535,14 +499,12 @@ void shell_out()
   }
 
 #else		/* MSDOS }{*/
-#ifndef ATARIST_MWC
   val = fork();
   if (val == 0)
     {
-#endif
       default_signals();
 #ifdef USG
-#if !defined(MSDOS) && !defined(ATARIST_MWC)
+#if !defined(MSDOS)
       (void) ioctl(0, TCSETA, (char *)&save_termio);
 #endif
 #else
@@ -562,17 +524,10 @@ void shell_out()
 #endif
 #endif
       if (str = getenv("SHELL"))
-#ifndef ATARIST_MWC
 	(void) execl(str, str, (char *) 0);
-#else
-	system(str);
-#endif
       else
-#ifndef ATARIST_MWC
 	(void) execl("/bin/sh", "sh", (char *) 0);
-#endif
       msg_print("Cannot execute shell.");
-#ifndef ATARIST_MWC
       exit(1);
     }
   if (val == -1)
@@ -585,7 +540,6 @@ void shell_out()
 #else
   (void) wait((union wait *) 0);
 #endif
-#endif /* ATARIST_MWC */
 #endif		 /* MSDOS }*/
   restore_signals();
   /* restore the cave to the screen */
@@ -603,7 +557,7 @@ void shell_out()
   /* disable all of the local special characters except the suspend char */
   /* have to disable ^Y for tunneling */
 #ifdef USG
-#if !defined(MSDOS) && !defined(ATARIST_MWC)
+#if !defined(MSDOS)
   (void) ioctl(0, TCSETA, (char *)&tbuf);
 #endif
 #else
@@ -1071,11 +1025,7 @@ char *prompt;
 #endif
 
   if (x > 73)
-#ifdef ATARIST_MWC
-    move(0, 73);
-#else
     (void) move(0, 73);
-#endif
 #ifdef MAC
   DWriteScreenStringAttr(" [y/n]", ATTR_NORMAL);
 #else

@@ -33,7 +33,7 @@
 #ifdef MSDOS
 #include <io.h>
 #else
-#if !defined(ATARIST_MWC) && !defined(MAC)
+#if !defined(MAC)
 #ifndef VMS
 #include <pwd.h>
 #else
@@ -43,10 +43,8 @@
 #endif
 
 #ifdef USG
-#ifndef ATARIST_MWC
 #include <string.h>
 #include <fcntl.h>
-#endif
 #else
 #include <strings.h>
 #endif
@@ -91,9 +89,7 @@ static void kingly(void);
 
 #ifndef MAC
 char *getlogin();
-#ifndef ATARIST_MWC
 long time();
-#endif
 #endif
 
 static void date(day)

@@ -15,12 +15,7 @@
 #include "externs.h"
 
 #ifdef USG
-#ifndef ATARIST_MWC
 #include <string.h>
-#else
-char *strcat();
-int strlen();
-#endif
 #else
 #include <strings.h>
 #endif
@@ -2267,11 +2262,7 @@ int dir, y, x;
 #ifdef MSDOS
   else if ((c = loc_symbol(y, x)) == wallsym || c == '%')
 #else
-#ifdef ATARIST_MWC
-  else if ((c = loc_symbol(y, x)) == (unsigned char)240 || c == '%')
-#else
   else if ((c = loc_symbol(y, x)) == '#' || c == '%')
-#endif
 #endif
     return TRUE;
   else

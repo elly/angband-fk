@@ -21,12 +21,8 @@
 #endif
 
 #ifdef USG
-#ifndef ATARIST_MWC
 #include <string.h>
 #include <fcntl.h>
-#else
-#include "string.h"
-#endif
 #else
 #include <strings.h>
 #endif
@@ -49,14 +45,10 @@ static void rd_shorts();
 static void rd_item();
 static void rd_monster();
 
-#if !defined(ATARIST_MWC)
 #ifdef MAC
 #include <time.h>
 #else
 long time();
-#endif
-#else
-char *malloc();
 #endif
 
 #ifndef SET_UID
@@ -610,7 +602,6 @@ char *fnam;
   change_speed(-pack_heavy);	/* Fix the speed */
   pack_heavy = 0;
   ok = FALSE;
-#ifndef ATARIST_MWC
   fd = -1;
   fileptr = NULL;		/* Do not assume it has been init'ed */
 #ifdef SET_UID
@@ -633,16 +624,9 @@ char *fnam;
   if (fd >= 0)
     {
       (void) close(fd);
-#endif /* ATARIST_MWC */
       /* GCC for atari st defines atarist */
-#if defined(atarist) || defined(ATARIST_MWC)
-      fileptr = fopen(savefile, "wb");
-#else
       fileptr = fopen(savefile, "w");
-#endif
-#ifndef ATARIST_MWC
     }
-#endif
   if (fileptr != NULL)
     {
 #ifdef MSDOS
@@ -1252,12 +1236,10 @@ int *generate;
 	  rd_byte(&char_tmp);
 	  for (i = count; i > 0; i--)
 	    {
-#ifndef ATARIST_MWC
 	      if (c_ptr >= &cave[MAX_HEIGHT][0]) {
 		prt("ERROR in cave size", 13, 0);
 		goto error;
 	      }
-#endif
 	      c_ptr->fval = char_tmp & 0xF;
 	      c_ptr->lr = (char_tmp >> 4) & 0x1;
 	      c_ptr->fm = (char_tmp >> 5) & 0x1;

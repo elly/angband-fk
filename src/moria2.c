@@ -15,9 +15,7 @@
 #include "externs.h"
 
 #ifdef USG
-#ifndef ATARIST_MWC
 #include <string.h>
-#endif
 #else
 #include <strings.h>
 #endif
@@ -566,9 +564,6 @@ int32u win;
 {
   register int i, number;
   int32u dump, res;
-#if defined(ATARIST_MWC)
-  int32u holder;	/* avoid a compiler bug */
-#endif
 
   if (win) {
     register int i, j, k;
@@ -634,7 +629,6 @@ int32u win;
     }
     while (!grond && i<50);
   }
-#if !defined(ATARIST_MWC)
   if (flags & CM_CARRY_OBJ)
     i = 1;
   else
@@ -657,46 +651,8 @@ int32u win;
     dump = summon_object(y, x, number, i, good);
   else
     dump = 0;
-#else
-  holder = CM_CARRY_OBJ;
-  if (flags & holder)
-    i = 1;
-  else
-    i = 0;
-  holder = CM_CARRY_GOLD;
-  if (flags & holder)
-    i += 2;
 
-  number = 0;
-  holder = CM_60_RANDOM;
-  if ((flags & holder) && (randint(100) < 60))
-    number++;
-  holder = CM_90_RANDOM;
-  if ((flags & holder) && (randint(100) < 90))
-    number++;
-  holder = CM_1D2_OBJ;
-  if (flags & holder)
-    number += randint(2);
-  holder = CM_2D2_OBJ;
-  if (flags & holder)
-    number += damroll(2, 2);
-  holder = CM_4D2_OBJ;
-  if (flags & holder)
-    number += damroll(4, 2);
-  if (number > 0)
-    dump = summon_object(y, x, number, i, good);
-  else
-    dump = 0;
-
-
-#endif
-
-#if defined(ATARIST_MWC)
-  holder = CM_WIN;
-  if (flags & holder)
-#else
   if (flags & CM_WIN)
-#endif
     {
       total_winner = TRUE;
       prt_winner();
@@ -708,23 +664,9 @@ int32u win;
     {
       res = 0;
       if (dump & 255)
-#ifdef ATARIST_MWC
-	{
-	  holder = CM_CARRY_OBJ;
-	  res |= holder;
-	}
-#else
         res |= CM_CARRY_OBJ;
-#endif
       if (dump >= 256)
-#ifdef ATARIST_MWC
-	{
-	  holder = CM_CARRY_GOLD;
-	  res |= holder;
-	}
-#else
 	res |= CM_CARRY_GOLD;
-#endif
       dump = (dump % 256) + (dump / 256);  /* number of items */
       res |= dump << CM_TR_SHIFT;
     }

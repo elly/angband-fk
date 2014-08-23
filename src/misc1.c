@@ -28,11 +28,7 @@
 #include "externs.h"
 
 #ifdef USG
-#ifndef ATARIST_MWC
 #include <string.h>
-#else
-#include "string.h"
-#endif
 #else
 #include <strings.h>
 #endif
@@ -61,7 +57,7 @@ static void compact_monsters(void);
 static void compact_objects(void);
 #endif
 
-#if !defined(ATARIST_MWC) && !defined(MAC)
+#if !defined(MAC)
 long time();
 #endif
 struct tm *localtime();
@@ -585,11 +581,7 @@ int y, x;
 #ifdef MSDOS
       return wallsym;
 #else
-#ifndef ATARIST_MWC
       return '#';
-#else
-      return (unsigned char)240;
-#endif
 #endif
     }
   else	/* Originally set highlight bit, but that is not portable, now use

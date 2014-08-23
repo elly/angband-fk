@@ -29,18 +29,6 @@ void init_signals()
 
 #include <stdio.h>
 
-#ifdef ATARIST_MWC
-/* need these for atari st, but for unix, must include signals.h first,
-   or else suspend won't be properly declared */
-#include "constant.h"
-#include "config.h"
-#include "types.h"
-#include "externs.h"
-#endif
-
-/* skip most of the file on an ATARI ST */
-#ifndef ATARIST_MWC
-
 /* to get the SYS_V def if needed */
 #include "config.h"
 
@@ -65,9 +53,7 @@ typedef struct { int stuff; } fpvmach;
 #endif
 
 #ifdef USG
-#ifndef ATARIST_MWC
 #include <string.h>
-#endif
 #else
 #ifndef VMS
 #include <strings.h>
@@ -182,19 +168,12 @@ int sig;
   exit(1);
 }
 
-#endif /* ATARIST_MWC */
-
-#ifdef ATARIST_MWC
-static int error_sig = -1;
-#endif
-
 #ifndef USG
 static int mask;
 #endif
 
 void nosignals()
 {
-#if !defined(ATARIST_MWC)
 #ifdef SIGTSTP
   (void) signal(SIGTSTP, SIG_IGN);
 #ifndef USG
@@ -203,12 +182,10 @@ void nosignals()
 #endif
   if (error_sig < 0)
     error_sig = 0;
-#endif
 }
 
 void signals()
 {
-#if !defined(ATARIST_MWC)
 #ifdef SIGTSTP
   (void) signal(SIGTSTP, suspend);
 #ifndef USG
@@ -217,13 +194,11 @@ void signals()
 #endif
   if (error_sig == 0)
     error_sig = -1;
-#endif
 }
 
 
 void init_signals()
 {
-#ifndef ATARIST_MWC
   (void) signal(SIGINT, signal_handler);
   (void) signal(SIGFPE, signal_handler);
 #ifdef MSDOS
@@ -254,36 +229,29 @@ void init_signals()
   (void) signal(SIGPWR, signal_handler);
 #endif
 #endif
-#endif
 }
 
 void ignore_signals()
 {
-#if !defined(ATARIST_MWC)
   (void) signal(SIGINT, SIG_IGN);
 #ifdef SIGQUIT
   (void) signal(SIGQUIT, SIG_IGN);
-#endif
 #endif
 }
 
 void default_signals()
 {
-#if !defined(ATARIST_MWC)
   (void) signal(SIGINT, SIG_DFL);
 #ifdef SIGQUIT
   (void) signal(SIGQUIT, SIG_DFL);
-#endif
 #endif
 }
 
 void restore_signals()
 {
-#if !defined(ATARIST_MWC)
   (void) signal(SIGINT, signal_handler);
 #ifdef SIGQUIT
   (void) signal(SIGQUIT, signal_handler);
-#endif
 #endif
 }
 

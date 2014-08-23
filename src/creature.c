@@ -13,12 +13,7 @@
 #include "externs.h"
 
 #ifdef USG
-#ifndef ATARIST_MWC
 #include <string.h>
-#else
-char *strcat();
-char *strcpy();
-#endif
 #else
 #include <strings.h>
 #endif
@@ -43,9 +38,6 @@ int monptr;
   register cave_type *c_ptr;
   register monster_type *m_ptr;
   register creature_type *r_ptr;
-#ifdef ATARIST_MWC
-  int32u holder;
-#endif
 
   m_ptr = &m_list[monptr];
   flag = FALSE;
@@ -72,21 +64,12 @@ int monptr;
 	  if (c_ptr->pl || c_ptr->tl ||
 	      (find_flag && m_ptr->cdis < 2 && player_light))
 	    {
-#ifdef ATARIST_MWC
-	      holder = CM_INVISIBLE;
-	      if ((holder & r_ptr->cmove) == 0)
-#else
 	      if ((CM_INVISIBLE & r_ptr->cmove) == 0)
-#endif
 		flag = TRUE;
 	      else if (py.flags.see_inv)
 		{
 		  flag = TRUE;
-#ifdef ATARIST_MWC
-		  c_recall[m_ptr->mptr].r_cmove |= holder;
-#else
 		  c_recall[m_ptr->mptr].r_cmove |= CM_INVISIBLE;
-#endif
 		}
 	    }
 	}
@@ -1100,9 +1083,6 @@ int32u *rcmove;
   register cave_type *c_ptr;
   register monster_type *m_ptr;
   register inven_type *t_ptr;
-#ifdef ATARIST_MWC
-  int32u holder;
-#endif
 
   i = 0;
   do_turn = FALSE;
@@ -1249,20 +1229,12 @@ int32u *rcmove;
 		      (newx != m_ptr->fx)))
 	      {
 		/* Creature eats other creatures?	 */
-#ifdef ATARIST_MWC
-		if ((movebits & (holder = CM_EATS_OTHER)) &&
-#else
 		if ((movebits & CM_EATS_OTHER) &&
-#endif
 		    (c_list[m_ptr->mptr].mexp >
 		     c_list[m_list[c_ptr->cptr].mptr].mexp))
 		  {
 		    if (m_list[c_ptr->cptr].ml)
-#ifdef ATARIST_MWC
-		      *rcmove |= holder;
-#else
 		      *rcmove |= CM_EATS_OTHER;
-#endif
 		    /* It ate an already processed monster. Handle normally. */
 		    if (monptr < c_ptr->cptr)
 		      delete_monster((int) c_ptr->cptr);
@@ -1279,11 +1251,7 @@ int32u *rcmove;
 	  if (do_move)
 	    {
 	      /* Pick up or eat an object	       */
-#ifdef ATARIST_MWC
-	      if (movebits & (holder = CM_PICKS_UP))
-#else
 	      if (movebits & CM_PICKS_UP)
-#endif
 		{
 		  c_ptr = &cave[newy][newx];
 
@@ -1293,11 +1261,7 @@ int32u *rcmove;
                         || (t_list[c_ptr->tptr].tval > TV_MAX_WEAR)
                         || !(t_list[c_ptr->tptr].flags2 & TR_ARTIFACT)))
 		    {
-#ifdef ATARIST_MWC
-		      *rcmove |= holder;
-#else
 		      *rcmove |= CM_PICKS_UP;
-#endif
 		      (void) delete_object(newy, newx);
 		    }
 		}
@@ -2530,9 +2494,6 @@ int monptr;
 {
   register int i, j, k;
   register cave_type *c_ptr;
-#ifdef ATARIST_MWC
-  int32u holder;
-#endif
 
   i = 0;
   do

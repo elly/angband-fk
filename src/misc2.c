@@ -22,11 +22,7 @@
 #include <ctype.h>
 
 #ifdef USG
-#ifndef ATARIST_MWC
 #include <string.h>
-#else
-char *index();
-#endif
 #else
 #include <strings.h>
 #endif

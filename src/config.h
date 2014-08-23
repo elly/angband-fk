@@ -66,10 +66,6 @@
 #endif
 #endif
 
-#ifdef ATARIST_MWC
-#define USG
-#endif
-
 #ifdef MSDOS
 #define register      /* MSC 4.0 still has a problem with register bugs ... */
 #endif

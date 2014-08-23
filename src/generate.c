@@ -13,12 +13,10 @@
 #include "monster.h"
 
 #ifdef USG
-#if !defined(ATARIST_MWC)
 #ifndef __TURBOC__
 #include <memory.h>
 #else
 #include <mem.h>
-#endif
 #endif
 #endif
 
