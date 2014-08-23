@@ -100,11 +100,7 @@ void moriaterm()
   struct termio tbuf;
 
   curses_on = TRUE;
-#ifndef BSD4_3
-  use_value crmode();
-#else
   use_value cbreak();
-#endif
   use_value noecho();
   /* can not use nonl(), because some curses do not handle it correctly */
   (void) ioctl(0, TCGETA, (char *)&tbuf);
@@ -189,11 +185,7 @@ void shell_out()
 
   (void) ioctl(0, TCGETA, (char *)&tbuf);
   /* would call nl() here if could use nl()/nonl(), see moriaterm() */
-#ifndef BSD4_3
-  use_value nocrmode();
-#else
   use_value nocbreak();
-#endif
   use_value echo();
   ignore_signals();
   val = fork();
@@ -217,11 +209,7 @@ void shell_out()
   restore_signals();
   /* restore the cave to the screen */
   restore_screen();
-#ifndef BSD4_3
-  use_value crmode();
-#else
   use_value cbreak();
-#endif
   use_value noecho();
   /* would call nonl() here if could use nl()/nonl(), see moriaterm() */
   /* disable all of the local special characters except the suspend char */

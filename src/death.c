@@ -28,11 +28,7 @@
 #define MIN(a, b)	((a < b) ? a : b)
 #endif
 
-#ifndef BSD4_3
-long lseek();
-#else
 off_t lseek();
-#endif
 
 #ifndef L_SET
 #define L_SET 0
@@ -339,11 +335,7 @@ static int top_twenty()
 
   /*  Check to see if this score is a high one and where it goes */
   i = 0;
-#ifndef BSD4_3
-  (void) lseek(highscore_fd, (long)0, L_SET);
-#else
   (void) lseek(highscore_fd, (off_t)0, L_SET);
-#endif
   while ((i < MAX_SAVE_HISCORES)
 	&& (0 != read(highscore_fd, (char *)&scores[i], sizeof(high_scores))))
     {
