@@ -15,11 +15,7 @@
 #include "types.h"
 #include "externs.h"
 
-#ifdef Pyramid
-#include <sys/time.h>
-#else
 #include <time.h>
-#endif
 
 #include <ctype.h>
 

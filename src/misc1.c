@@ -7,11 +7,7 @@
    included in all such copies. */
 #include <sys/time.h>
 #define FSCALE (1<<8)
-#ifdef Pyramid
-#include <sys/time.h>
-#else
 #include <time.h>
-#endif
 #if !defined(GEMDOS)
 #include <sys/types.h>
 #endif
