@@ -128,10 +128,6 @@ char *argv[];
 
   strcpy(py.misc.name, "\0");
 
-#ifndef SET_UID
-  (void) umask(0);
-#endif
-
   /* call this routine to grab a file pointer to the highscore file */
   /* and prepare things to relinquish setuid privileges */
   init_scorefile();
@@ -146,12 +142,6 @@ char *argv[];
     exit(0);
   }
   user_name(py.misc.name, player_uid);
-#ifdef SET_UID
-  if (setuid(geteuid()) != 0) {
-    perror("Can't set permissions correctly!  Setuid call failed.\n");
-    exit(0);
-  }
-#endif
 
   (void)gethostname(thishost, sizeof thishost);	/* get host */
   if ((fp=fopen(ANGBAND_LOAD, "r")) == NULL) {

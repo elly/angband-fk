@@ -36,9 +36,7 @@ static void rd_monster();
 
 long time();
 
-#ifndef SET_UID
 #include <sys/stat.h>
-#endif
 
 /* these are used for the save file, to avoid having to pass them to every
    procedure */
@@ -577,22 +575,13 @@ char *fnam;
   ok = FALSE;
   fd = -1;
   fileptr = NULL;		/* Do not assume it has been init'ed */
-#ifdef SET_UID
   fd = open(fnam, O_RDWR|O_CREAT|O_EXCL, 0600);
-#else
-  fd = open(fnam, O_RDWR|O_CREAT|O_EXCL, 0666);
-#endif
   if (fd < 0 && access(fnam, 0) >= 0 &&
       (from_savefile ||
        (wizard && get_check("Can't make new savefile. Overwrite old?"))))
     {
-#ifdef SET_UID
       (void) chmod(fnam, 0600);
       fd = open(fnam, O_RDWR|O_TRUNC, 0600);
-#else
-      (void) chmod(fnam, 0666);
-      fd = open(fnam, O_RDWR|O_TRUNC, 0666);
-#endif
   }
   if (fd >= 0)
     {
@@ -688,16 +677,12 @@ int *generate;
     msg_print("Can't open file for reading.");
   else
     {
-#ifndef SET_UID
       struct stat statbuf;
-#endif
       turn = -1;
       log_index = -1;
       ok = TRUE;
 
-#ifndef SET_UID
       (void) fstat(fd, &statbuf);
-#endif
       (void) close(fd);
       /* GCC for atari st defines atarist */
       fileptr = fopen(savefile, "r");
@@ -1098,7 +1083,6 @@ int *generate;
 	  if ((version_min >= 2)
 	      || (version_min == 1 && patch_level >= 3)) {
 	    rd_long(&time_saved);
-#ifndef SET_UID
 	    if (!to_be_wizard) {
 	      if (time_saved > (statbuf.st_ctime+100) ||
 		  time_saved < (statbuf.st_ctime-100)) {
@@ -1106,7 +1090,6 @@ int *generate;
 		    goto error;
 		  }
 	    }
-#endif
 	  }
 
 	  if (version_min >= 2)

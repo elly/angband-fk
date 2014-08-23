@@ -31,8 +31,6 @@
 #define ANGBAND_WIZ       LIBDIR"/files/wizards"
 #define ANGBAND_SAV       LIBDIR"/save"
 
-/* #define SET_UID */
-
 /* this sets the default user interface */
 /* to use the original key bindings (keypad for movement) set ROGUE_LIKE
    to FALSE, to use the rogue-like key bindings (vi style movement)

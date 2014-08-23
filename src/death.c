@@ -91,11 +91,7 @@ void display_scores(from, to)
 
   if (to<0) to=20;
   if (to>MAX_SAVE_HISCORES) to=MAX_SAVE_HISCORES;
-#ifdef SET_UID
   if (1 > (fd = open(ANGBAND_TOP, O_RDONLY, 0644))) {
-#else
-  if (1 > (fd = open(ANGBAND_TOP, O_RDONLY, 0666))) {
-#endif
     (void) sprintf(string, "Error opening score file \"%s\"\n", ANGBAND_TOP);
     prt(string, 0, 0);
     return ;

@@ -30,11 +30,7 @@ void exit();
  */
 init_scorefile()
 {
-#ifdef SET_UID
   if (1 > (highscore_fd = open(ANGBAND_TOP, O_RDWR | O_CREAT, 0644)))
-#else
-  if (1 > (highscore_fd = open(ANGBAND_TOP, O_RDWR | O_CREAT, 0666)))
-#endif
     {
       (void) fprintf (stderr, "Can't open score file \"%s\"\n", ANGBAND_TOP);
       exit(1);
