@@ -22,6 +22,8 @@
 #endif
 #endif
 
+#include <stdlib.h>
+
 typedef struct coords {
   int x, y;
 } coords;

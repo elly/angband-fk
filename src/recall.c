@@ -418,7 +418,7 @@ int mon_num;
       j = (((long)cp->mexp * cp->level % py.misc.lev) * (long)1000 /
 	   py.misc.lev+5) / 10;
 
-      (void) sprintf(temp, " is worth %d.%02ld point%s", i,
+      (void) sprintf(temp, " is worth %d.%02d point%s", i,
 		     j, (i == 1 && j == 0 ? "" : "s"));
       roff(temp);
 
@@ -692,7 +692,7 @@ int mon_num;
 	roff(" one or two");
       else
 	{
-	  (void) sprintf(temp, " up to %ld", j);
+	  (void) sprintf(temp, " up to %d", j);
 	  roff(temp);
 	}
       if (rcmove & CM_CARRY_OBJ)

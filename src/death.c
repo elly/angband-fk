@@ -149,7 +149,7 @@ void display_scores(from, to)
   }
 
   while (0 < read(fd, (char *)&score, sizeof(high_scores))) {
-    (void) sprintf(hugebuffer, "%3d) %-7ld %s the %s %s (Level %d)",
+    (void) sprintf(hugebuffer, "%3d) %-7d %s the %s %s (Level %d)",
 		   i/2+1,
 		   score.points, score.name,
 		   race[score.prace].trace, class[score.pclass].title,
@@ -263,10 +263,10 @@ static void print_tomb()
   (void) sprintf (str, "Level : %d", (int) py.misc.lev);
   (void) sprintf (str,"| %s |          /    \\", center_string (tmp_str, str));
   put_buffer (str, 11, 9);
-  (void) sprintf(str, "%ld Exp", py.misc.exp);
+  (void) sprintf(str, "%d Exp", py.misc.exp);
   (void) sprintf(str,"| %s |          :    :", center_string (tmp_str, str));
   put_buffer (str, 12, 9);
-  (void) sprintf(str, "%ld Au", py.misc.au);
+  (void) sprintf(str, "%d Au", py.misc.au);
   (void) sprintf(str,"| %s |          :    :", center_string (tmp_str, str));
   put_buffer (str, 13, 9);
   (void) sprintf(str, "Died on Level : %d", dun_level);

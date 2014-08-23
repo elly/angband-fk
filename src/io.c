@@ -36,6 +36,8 @@ char *getenv();
 #include "externs.h"
 
 #include <ctype.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 #if defined(SYS_V) && defined(lint)
 /* for AIX, prevent hundreds of unnecessary lint errors, must define before
@@ -177,7 +179,7 @@ static WINDOW *savescr;		/* Spare window for saving the screen. -CJS- */
    Handle the stop and start signals. This ensures that the log
    is up to date, and that the terminal is fully reset and
    restored.  */
-int suspend()
+void suspend(int sig)
 {
 #ifdef USG
   /* for USG systems with BSDisms that have SIGTSTP defined, but don't
@@ -206,7 +208,6 @@ int suspend()
   noecho();
   py.misc.male &= ~2;
 #endif
-  return 0;
 }
 #endif
 #endif

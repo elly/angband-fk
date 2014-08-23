@@ -242,7 +242,6 @@ char *p;
 #endif
 
 #ifdef USG
-unsigned short getuid();
 #else
 #ifndef SECURE
 #ifdef BSD4_3

@@ -10,7 +10,9 @@ OBJDIR = $(THISDIR)/obj
 LIBDIR = $(THISDIR)/lib
 BINDIR = $(THISDIR)/bin
 
-CFLAGS = -g -DLIBDIR=\"$(LIBDIR)\" 
+# We need -Wno-overflow because the table in src/monsters.c uses too-large
+# values for many fields, but changing them will break savefile compat
+CFLAGS = -g -Wno-overflow -Werror -DLIBDIR=\"$(LIBDIR)\" 
 CC = gcc
 
 SOURCES = main.c misc1.c misc2.c store1.c files.c io.c create.c desc.c\
@@ -40,7 +42,8 @@ default:	all
 all:	angband
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
-	$(CC) $(CFLAGS) -c $(SRCDIR)/$*.c -o $@
+	@echo "  CC $*.o"
+	@$(CC) $(CFLAGS) -c $(SRCDIR)/$*.c -o $@
 
 angband: $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(BINDIR)/angband -lcurses -ltermcap -lrpcsvc

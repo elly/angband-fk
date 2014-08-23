@@ -99,7 +99,7 @@ struct sigcontext *scp;
 #ifdef __TURBOC__
 static void signal_handler(sig)
 #else
-static int signal_handler(sig)
+static void signal_handler(sig)
 #endif
 int sig;
 {

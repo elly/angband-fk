@@ -484,7 +484,7 @@ char *out_val;
       part1 = 18;
       part2 = stat - 18;
       if (part2 >= 220)
-	(void) sprintf(out_val, "%2d/*** ", part1, part2);
+	(void) sprintf(out_val, "%2d/*** ", part1);
       else if (part2 >= 100)
 	(void) sprintf(out_val, "%2d/%03d ", part1, part2);
       else
@@ -525,7 +525,7 @@ int row, column;
 {
   vtype out_val;
 
-  (void) sprintf(out_val, "%s:%8ld", header, num);
+  (void) sprintf(out_val, "%s:%8d", header, num);
   put_buffer(out_val, row, column);
 }
 
@@ -547,7 +547,7 @@ int row, column;
 {
   vtype out_val;
 
-  (void) sprintf(out_val, "%6ld", num);
+  (void) sprintf(out_val, "%6d", num);
   put_buffer(out_val, row, column);
 }
 
@@ -2475,7 +2475,7 @@ void prt_experience()
     }
   if (p_ptr->exp > p_ptr->max_exp)
     p_ptr->max_exp = p_ptr->exp;
-  (void) sprintf(out_val, "%8ld", p_ptr->exp);
+  (void) sprintf(out_val, "%8d", p_ptr->exp);
   put_buffer(out_val, 13, STAT_COLUMN+4);
 }
 
@@ -2627,9 +2627,9 @@ int show_sign;
       str1[string - object_str] = '\0';
       (void) strcpy(str2, string + mlen);
       if ((number >= 0) && (show_sign))
-	(void) sprintf(object_str, "%s+%ld%s", str1, number, str2);
+	(void) sprintf(object_str, "%s+%d%s", str1, number, str2);
       else
-	(void) sprintf(object_str, "%s%ld%s", str1, number, str2);
+	(void) sprintf(object_str, "%s%d%s", str1, number, str2);
     }
 }
 

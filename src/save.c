@@ -98,8 +98,8 @@ register struct unique_mon *item;
 static void rd_unique(item)
 register struct unique_mon *item;
 {
-  rd_long((int32)&item->exist);
-  rd_long((int32)&item->dead);
+  rd_long((int32*)&item->exist);
+  rd_long((int32*)&item->dead);
 }
 
 
@@ -676,9 +676,9 @@ char *fnam;
 	(void) unlink(fnam);
       signals();
       if (fd >= 0)
-	(void) sprintf(temp, "Error writing to savefile", fnam);
+	(void) sprintf(temp, "Error writing to savefile");
       else
-	(void) sprintf(temp, "Can't create new savefile", fnam);
+	(void) sprintf(temp, "Can't create new savefile");
       msg_print(temp);
       return FALSE;
     }
@@ -726,7 +726,7 @@ int *generate;
 
   clear_screen();
 
-  (void) sprintf(temp, "Restoring Character.", savefile);
+  (void) sprintf(temp, "Restoring Character.");
   put_buffer(temp, 23, 0);
   sleep(1);
 

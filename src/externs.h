@@ -7,6 +7,8 @@
    included in all such copies. */
 
 #include <stdio.h>
+#include <string.h>
+#include <unistd.h>
 
 #ifndef MSDOS
 extern int errno;
@@ -773,7 +775,7 @@ void ident_char();
 
 /* io.c */
 #ifdef SIGTSTP
-int suspend();
+void suspend(int);
 #endif
 void init_curses();
 void moriaterm();

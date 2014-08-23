@@ -78,9 +78,6 @@ char *getenv();
 
 #ifndef MAC
 #ifdef USG
-#ifndef MSDOS
-unsigned short getuid(), getgid();
-#endif
 #else
 #ifndef SECURE
 #ifdef BSD4_3
