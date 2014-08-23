@@ -24,21 +24,13 @@
 #include <string.h>
 
 void exit();
-#ifdef __TURBOC__
-void sleep();
-#else
 unsigned sleep();
-#endif
 
 static int error_sig = -1;
 static int signal_count = 0;
 
 /*ARGSUSED*/
-#ifdef __TURBOC__
 static void signal_handler(sig)
-#else
-static void signal_handler(sig)
-#endif
 int sig;
 {
 

@@ -37,11 +37,7 @@ char *getenv();
 char *getenv();
 
 void exit();
-#ifdef __TURBOC__
-void sleep();
-#else
 unsigned sleep();
-#endif
 
 static struct termio save_termio;
 

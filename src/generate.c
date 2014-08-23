@@ -12,11 +12,7 @@
 #include "externs.h"
 #include "monster.h"
 
-#ifndef __TURBOC__
 #include <memory.h>
-#else
-#include <mem.h>
-#endif
 
 #include <stdlib.h>
 
