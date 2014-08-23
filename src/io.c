@@ -6,14 +6,7 @@
    not for profit purposes provided that this copyright and statement are
    included in all such copies. */
 
-#if !defined(GEMDOS)
 #include <curses.h>
-#else
-#include "curses.h"
-long wgetch();
-#include <osbind.h>
-char *getenv();
-#endif
 
 #include "constant.h"
 #include "config.h"

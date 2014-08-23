@@ -15,11 +15,6 @@
 #include "types.h"
 #include "externs.h"
 
-#if defined(GEMDOS) && (__STDC__ == 0)
-#include <access.h>
-char *strcat();
-#endif
-
 #include <string.h>
 #include <fcntl.h>
 

@@ -8,9 +8,7 @@
 #include <sys/time.h>
 #define FSCALE (1<<8)
 #include <time.h>
-#if !defined(GEMDOS)
 #include <sys/types.h>
-#endif
 
 #include <stdio.h>
 #include "constant.h"
